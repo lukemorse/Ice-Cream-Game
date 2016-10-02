@@ -1,0 +1,438 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AF193ACD1DA15AA300C8F1E8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */; };
+		AF193ACF1DA1645F00C8F1E8 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */; };
+		AF193AD11DA17C4400C8F1E8 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */; };
+		AF75E99E1D96EE2D00D7C045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E99D1D96EE2D00D7C045 /* AppDelegate.swift */; };
+		AF75E9A21D96EE2D00D7C045 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9A11D96EE2D00D7C045 /* Actions.sks */; };
+		AF75E9A41D96EE2D00D7C045 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9A31D96EE2D00D7C045 /* GameScene.swift */; };
+		AF75E9A61D96EE2D00D7C045 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9A51D96EE2D00D7C045 /* GameViewController.swift */; };
+		AF75E9A91D96EE2D00D7C045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9A71D96EE2D00D7C045 /* Main.storyboard */; };
+		AF75E9AB1D96EE2D00D7C045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9AA1D96EE2D00D7C045 /* Assets.xcassets */; };
+		AF75E9AE1D96EE2D00D7C045 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9AC1D96EE2D00D7C045 /* LaunchScreen.storyboard */; };
+		AF75E9BB1D96EE4E00D7C045 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B51D96EE4E00D7C045 /* coin.mp3 */; };
+		AF75E9BC1D96EE4E00D7C045 /* bounce.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B61D96EE4E00D7C045 /* bounce.mp3 */; };
+		AF75E9BD1D96EE4E00D7C045 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B71D96EE4E00D7C045 /* background.mp3 */; };
+		AF75E9BE1D96EE4E00D7C045 /* highHatRoll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B81D96EE4E00D7C045 /* highHatRoll.mp3 */; };
+		AF75E9BF1D96EE4E00D7C045 /* teeth1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B91D96EE4E00D7C045 /* teeth1.mp3 */; };
+		AF75E9C01D96EE4E00D7C045 /* teeth2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9BA1D96EE4E00D7C045 /* teeth2.mp3 */; };
+		AF75E9C31D96EE6A00D7C045 /* mouth.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9C21D96EE6A00D7C045 /* mouth.atlas */; };
+		AF75E9D61D96EEDD00D7C045 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9CC1D96EEDD00D7C045 /* Explosion.sks */; };
+		AF75E9D71D96EEDD00D7C045 /* ToothExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9CD1D96EEDD00D7C045 /* ToothExplosion.sks */; };
+		AF75E9D81D96EEDD00D7C045 /* greenSprinkle.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9CE1D96EEDD00D7C045 /* greenSprinkle.png */; };
+		AF75E9D91D96EEDD00D7C045 /* yellowSprinkle.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9CF1D96EEDD00D7C045 /* yellowSprinkle.png */; };
+		AF75E9DA1D96EEDD00D7C045 /* red square.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9D01D96EEDD00D7C045 /* red square.png */; };
+		AF75E9DB1D96EEDD00D7C045 /* spike.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9D11D96EEDD00D7C045 /* spike.png */; };
+		AF75E9DC1D96EEDD00D7C045 /* tooth.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9D21D96EEDD00D7C045 /* tooth.png */; };
+		AF75E9DD1D96EEDD00D7C045 /* sprinkle.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9D31D96EEDD00D7C045 /* sprinkle.png */; };
+		AF75E9DE1D96EEDD00D7C045 /* head.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9D41D96EEDD00D7C045 /* head.png */; };
+		AF75E9DF1D96EEDD00D7C045 /* toothbrush.png in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9D51D96EEDD00D7C045 /* toothbrush.png */; };
+		AF75E9E61D96EF2E00D7C045 /* Toothbrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9E01D96EF2E00D7C045 /* Toothbrush.swift */; };
+		AF75E9E71D96EF2E00D7C045 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9E11D96EF2E00D7C045 /* Constants.swift */; };
+		AF75E9E81D96EF2E00D7C045 /* Spike.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9E21D96EF2E00D7C045 /* Spike.swift */; };
+		AF75E9E91D96EF2E00D7C045 /* RedSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9E31D96EF2E00D7C045 /* RedSquare.swift */; };
+		AF75E9EA1D96EF2E00D7C045 /* Mouth.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9E41D96EF2E00D7C045 /* Mouth.swift */; };
+		AF75E9EB1D96EF2E00D7C045 /* IceCream.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF75E9E51D96EF2E00D7C045 /* IceCream.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
+		AF75E99A1D96EE2D00D7C045 /* Ice Cream Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ice Cream Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF75E99D1D96EE2D00D7C045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AF75E9A11D96EE2D00D7C045 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		AF75E9A31D96EE2D00D7C045 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		AF75E9A51D96EE2D00D7C045 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		AF75E9A81D96EE2D00D7C045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AF75E9AA1D96EE2D00D7C045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AF75E9AD1D96EE2D00D7C045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AF75E9AF1D96EE2D00D7C045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF75E9B51D96EE4E00D7C045 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
+		AF75E9B61D96EE4E00D7C045 /* bounce.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bounce.mp3; sourceTree = "<group>"; };
+		AF75E9B71D96EE4E00D7C045 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = background.mp3; sourceTree = "<group>"; };
+		AF75E9B81D96EE4E00D7C045 /* highHatRoll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = highHatRoll.mp3; sourceTree = "<group>"; };
+		AF75E9B91D96EE4E00D7C045 /* teeth1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teeth1.mp3; sourceTree = "<group>"; };
+		AF75E9BA1D96EE4E00D7C045 /* teeth2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teeth2.mp3; sourceTree = "<group>"; };
+		AF75E9C21D96EE6A00D7C045 /* mouth.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = mouth.atlas; sourceTree = "<group>"; };
+		AF75E9CC1D96EEDD00D7C045 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		AF75E9CD1D96EEDD00D7C045 /* ToothExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ToothExplosion.sks; sourceTree = "<group>"; };
+		AF75E9CE1D96EEDD00D7C045 /* greenSprinkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenSprinkle.png; sourceTree = "<group>"; };
+		AF75E9CF1D96EEDD00D7C045 /* yellowSprinkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowSprinkle.png; sourceTree = "<group>"; };
+		AF75E9D01D96EEDD00D7C045 /* red square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red square.png"; sourceTree = "<group>"; };
+		AF75E9D11D96EEDD00D7C045 /* spike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spike.png; sourceTree = "<group>"; };
+		AF75E9D21D96EEDD00D7C045 /* tooth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tooth.png; sourceTree = "<group>"; };
+		AF75E9D31D96EEDD00D7C045 /* sprinkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprinkle.png; sourceTree = "<group>"; };
+		AF75E9D41D96EEDD00D7C045 /* head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = head.png; sourceTree = "<group>"; };
+		AF75E9D51D96EEDD00D7C045 /* toothbrush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toothbrush.png; sourceTree = "<group>"; };
+		AF75E9E01D96EF2E00D7C045 /* Toothbrush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toothbrush.swift; sourceTree = "<group>"; };
+		AF75E9E11D96EF2E00D7C045 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AF75E9E21D96EF2E00D7C045 /* Spike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spike.swift; sourceTree = "<group>"; };
+		AF75E9E31D96EF2E00D7C045 /* RedSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedSquare.swift; sourceTree = "<group>"; };
+		AF75E9E41D96EF2E00D7C045 /* Mouth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mouth.swift; sourceTree = "<group>"; };
+		AF75E9E51D96EF2E00D7C045 /* IceCream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IceCream.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AF75E9971D96EE2D00D7C045 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AF75E9911D96EE2D00D7C045 = {
+			isa = PBXGroup;
+			children = (
+				AF75E9C11D96EE5800D7C045 /* Sounds */,
+				AF75E99C1D96EE2D00D7C045 /* Ice Cream Game */,
+				AF75E99B1D96EE2D00D7C045 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AF75E99B1D96EE2D00D7C045 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AF75E99A1D96EE2D00D7C045 /* Ice Cream Game.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AF75E99C1D96EE2D00D7C045 /* Ice Cream Game */ = {
+			isa = PBXGroup;
+			children = (
+				AF75E9C51D96EEA200D7C045 /* SpritePics */,
+				AF75E99D1D96EE2D00D7C045 /* AppDelegate.swift */,
+				AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */,
+				AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */,
+				AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */,
+				AF75E9A11D96EE2D00D7C045 /* Actions.sks */,
+				AF75E9A31D96EE2D00D7C045 /* GameScene.swift */,
+				AF75E9E01D96EF2E00D7C045 /* Toothbrush.swift */,
+				AF75E9E11D96EF2E00D7C045 /* Constants.swift */,
+				AF75E9E21D96EF2E00D7C045 /* Spike.swift */,
+				AF75E9E31D96EF2E00D7C045 /* RedSquare.swift */,
+				AF75E9E41D96EF2E00D7C045 /* Mouth.swift */,
+				AF75E9E51D96EF2E00D7C045 /* IceCream.swift */,
+				AF75E9A51D96EE2D00D7C045 /* GameViewController.swift */,
+				AF75E9A71D96EE2D00D7C045 /* Main.storyboard */,
+				AF75E9AA1D96EE2D00D7C045 /* Assets.xcassets */,
+				AF75E9AC1D96EE2D00D7C045 /* LaunchScreen.storyboard */,
+				AF75E9AF1D96EE2D00D7C045 /* Info.plist */,
+			);
+			path = "Ice Cream Game";
+			sourceTree = "<group>";
+		};
+		AF75E9C11D96EE5800D7C045 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				AF75E9B51D96EE4E00D7C045 /* coin.mp3 */,
+				AF75E9B61D96EE4E00D7C045 /* bounce.mp3 */,
+				AF75E9B71D96EE4E00D7C045 /* background.mp3 */,
+				AF75E9B81D96EE4E00D7C045 /* highHatRoll.mp3 */,
+				AF75E9B91D96EE4E00D7C045 /* teeth1.mp3 */,
+				AF75E9BA1D96EE4E00D7C045 /* teeth2.mp3 */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		AF75E9C51D96EEA200D7C045 /* SpritePics */ = {
+			isa = PBXGroup;
+			children = (
+				AF75E9CC1D96EEDD00D7C045 /* Explosion.sks */,
+				AF75E9CD1D96EEDD00D7C045 /* ToothExplosion.sks */,
+				AF75E9CE1D96EEDD00D7C045 /* greenSprinkle.png */,
+				AF75E9CF1D96EEDD00D7C045 /* yellowSprinkle.png */,
+				AF75E9D01D96EEDD00D7C045 /* red square.png */,
+				AF75E9D11D96EEDD00D7C045 /* spike.png */,
+				AF75E9D21D96EEDD00D7C045 /* tooth.png */,
+				AF75E9D31D96EEDD00D7C045 /* sprinkle.png */,
+				AF75E9D41D96EEDD00D7C045 /* head.png */,
+				AF75E9D51D96EEDD00D7C045 /* toothbrush.png */,
+				AF75E9C21D96EE6A00D7C045 /* mouth.atlas */,
+			);
+			name = SpritePics;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AF75E9991D96EE2D00D7C045 /* Ice Cream Game */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF75E9B21D96EE2D00D7C045 /* Build configuration list for PBXNativeTarget "Ice Cream Game" */;
+			buildPhases = (
+				AF75E9961D96EE2D00D7C045 /* Sources */,
+				AF75E9971D96EE2D00D7C045 /* Frameworks */,
+				AF75E9981D96EE2D00D7C045 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Ice Cream Game";
+			productName = "Ice Cream Game";
+			productReference = AF75E99A1D96EE2D00D7C045 /* Ice Cream Game.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF75E9921D96EE2D00D7C045 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Luke Morse";
+				TargetAttributes = {
+					AF75E9991D96EE2D00D7C045 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 48WGY8KFKT;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = AF75E9951D96EE2D00D7C045 /* Build configuration list for PBXProject "Ice Cream Game" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AF75E9911D96EE2D00D7C045;
+			productRefGroup = AF75E99B1D96EE2D00D7C045 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AF75E9991D96EE2D00D7C045 /* Ice Cream Game */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AF75E9981D96EE2D00D7C045 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF75E9D81D96EEDD00D7C045 /* greenSprinkle.png in Resources */,
+				AF75E9D71D96EEDD00D7C045 /* ToothExplosion.sks in Resources */,
+				AF75E9C01D96EE4E00D7C045 /* teeth2.mp3 in Resources */,
+				AF75E9DC1D96EEDD00D7C045 /* tooth.png in Resources */,
+				AF75E9A91D96EE2D00D7C045 /* Main.storyboard in Resources */,
+				AF75E9DF1D96EEDD00D7C045 /* toothbrush.png in Resources */,
+				AF75E9AB1D96EE2D00D7C045 /* Assets.xcassets in Resources */,
+				AF193AD11DA17C4400C8F1E8 /* MainMenu.sks in Resources */,
+				AF75E9BC1D96EE4E00D7C045 /* bounce.mp3 in Resources */,
+				AF75E9D61D96EEDD00D7C045 /* Explosion.sks in Resources */,
+				AF75E9BD1D96EE4E00D7C045 /* background.mp3 in Resources */,
+				AF75E9D91D96EEDD00D7C045 /* yellowSprinkle.png in Resources */,
+				AF75E9DE1D96EEDD00D7C045 /* head.png in Resources */,
+				AF193ACD1DA15AA300C8F1E8 /* GameScene.sks in Resources */,
+				AF75E9DD1D96EEDD00D7C045 /* sprinkle.png in Resources */,
+				AF75E9DB1D96EEDD00D7C045 /* spike.png in Resources */,
+				AF75E9AE1D96EE2D00D7C045 /* LaunchScreen.storyboard in Resources */,
+				AF75E9DA1D96EEDD00D7C045 /* red square.png in Resources */,
+				AF75E9C31D96EE6A00D7C045 /* mouth.atlas in Resources */,
+				AF75E9BE1D96EE4E00D7C045 /* highHatRoll.mp3 in Resources */,
+				AF75E9A21D96EE2D00D7C045 /* Actions.sks in Resources */,
+				AF75E9BB1D96EE4E00D7C045 /* coin.mp3 in Resources */,
+				AF75E9BF1D96EE4E00D7C045 /* teeth1.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AF75E9961D96EE2D00D7C045 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF75E9E71D96EF2E00D7C045 /* Constants.swift in Sources */,
+				AF75E9A41D96EE2D00D7C045 /* GameScene.swift in Sources */,
+				AF75E9E61D96EF2E00D7C045 /* Toothbrush.swift in Sources */,
+				AF75E9EA1D96EF2E00D7C045 /* Mouth.swift in Sources */,
+				AF75E9A61D96EE2D00D7C045 /* GameViewController.swift in Sources */,
+				AF193ACF1DA1645F00C8F1E8 /* MainMenu.swift in Sources */,
+				AF75E9EB1D96EF2E00D7C045 /* IceCream.swift in Sources */,
+				AF75E9E91D96EF2E00D7C045 /* RedSquare.swift in Sources */,
+				AF75E9E81D96EF2E00D7C045 /* Spike.swift in Sources */,
+				AF75E99E1D96EE2D00D7C045 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AF75E9A71D96EE2D00D7C045 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF75E9A81D96EE2D00D7C045 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AF75E9AC1D96EE2D00D7C045 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF75E9AD1D96EE2D00D7C045 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AF75E9B01D96EE2D00D7C045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF75E9B11D96EE2D00D7C045 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AF75E9B31D96EE2D00D7C045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 48WGY8KFKT;
+				INFOPLIST_FILE = "Ice Cream Game/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Lukemorse.Ice-Cream-Game";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		AF75E9B41D96EE2D00D7C045 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 48WGY8KFKT;
+				INFOPLIST_FILE = "Ice Cream Game/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Lukemorse.Ice-Cream-Game";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AF75E9951D96EE2D00D7C045 /* Build configuration list for PBXProject "Ice Cream Game" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF75E9B01D96EE2D00D7C045 /* Debug */,
+				AF75E9B11D96EE2D00D7C045 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF75E9B21D96EE2D00D7C045 /* Build configuration list for PBXNativeTarget "Ice Cream Game" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF75E9B31D96EE2D00D7C045 /* Debug */,
+				AF75E9B41D96EE2D00D7C045 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AF75E9921D96EE2D00D7C045 /* Project object */;
+}
