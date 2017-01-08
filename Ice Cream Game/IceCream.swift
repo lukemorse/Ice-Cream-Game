@@ -19,7 +19,8 @@ class IceCream: SKSpriteNode {
         let imageTexture = SKTexture(imageNamed: imageNamed)
         super.init(texture: imageTexture, color: SKColor.white, size: imageTexture.size())
         
-        let body = SKPhysicsBody.init(rectangleOf: imageTexture.size())
+//        let body = SKPhysicsBody.init(rectangleOf: imageTexture.size())
+        let body = SKPhysicsBody(texture: imageTexture, size: imageTexture.size())
         body.categoryBitMask = BodyType.iceCream.rawValue
         body.contactTestBitMask = BodyType.mouth.rawValue
         body.isDynamic = false
@@ -28,7 +29,8 @@ class IceCream: SKSpriteNode {
         self.physicsBody = body
         self.name = "iceCream"
         self.isUserInteractionEnabled = false
-        self.setScale(0.06)
+        self.setScale(0.45)
+        self.zPosition = 1
         
     }
     

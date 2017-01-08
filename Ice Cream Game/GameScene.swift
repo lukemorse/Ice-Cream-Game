@@ -12,16 +12,19 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var score = 29
     var scoreLabel: SKLabelNode?
     var fancyCongratsLabel: SKLabelNode?
     var fancy = false
+    var mouthSpeed: Int?
     
     var touchPoint: CGPoint = CGPoint()
     var touching: Bool = false
     var mouthIsReady: Bool = false
     
+    var background: SKSpriteNode?
     var mouth: Mouth?
+    var mouthSpot: SKSpriteNode?
+    var arc: SKShapeNode?
     var iceCream: IceCream?
     var redSquare: RedSquare?
     var redSquare2: RedSquare?
@@ -33,54 +36,104 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var toothbrush3: Toothbrush?
     
     var mouthMovingAnimation: SKAction?
-    let tapRecognizer = UITapGestureRecognizer()
+//    let tapRecognizer = UITapGestureRecognizer()
     
-    var backgroundMusic: SKAudioNode!
-    var highHatSound: SKAudioNode!
-    var coinSound: SKAudioNode!
-    var teethSound: SKAudioNode!
-    var bounceSound: SKAudioNode!
-    //    var thereAreNoMouths = true
+    var backgroundMusic: SoundNode!
+    var teethChatterSound: SoundNode!
+    var coinSound: SoundNode!
+    var teethSound: SoundNode!
+    var bounceSound: SoundNode!
+    var badIceCreamSound: SoundNode!
+    var brushSound: SoundNode!
+    var bg1: SKSpriteNode?
+    var bg2: SKSpriteNode?
+    let bounceSounds = ["bounce1","bounce2","bounce3","bounce4","bounce5",]
+    
+    var iceCreamGood = true
+    var mouthHitIceCreamRegistered = false
+    
+    var squareRate = 1.0
+    var moveBadIceCreamRate = 1.0
     
     override func didMove(to view: SKView) {
         
         self.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        self.backgroundColor = SKColor.black
+        
+//        if self.childNode(withName: "background") == nil {
+//            
+//            background = SKSpriteNode(imageNamed: "Star_Background")
+//            background!.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+//            background!.setScale(2)
+//            addChild(background!)
+//            background!.zPosition = -1
+//        }
+        
+        bg1 = SKSpriteNode.init(imageNamed: "bg1.jpg")
+        bg1!.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        bg1!.position = CGPoint(x: 0.0, y: 0.0)
+        bg1!.zPosition = 0
+        addChild(bg1!)
+        
+        bg2 = SKSpriteNode.init(imageNamed: "bg1.jpg")
+        bg2!.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        bg2!.position = CGPoint(x: bg1!.size.width - 1, y: 0);
+        bg2!.zPosition = 0
+        addChild(bg2!)
+        
         physicsWorld.contactDelegate = self
         
         setUpAnimation()
-        
         createHead()
-        
         fadeInMouth()
-        
-        createIceCream()
-        
         makeScoreLabel()
+        createArc()
         
-//        swellIceCream()
+        mouthSpot = SKSpriteNode(imageNamed: "mouth1")
+        mouthSpot!.setScale(0.22)
+        mouthSpot!.position = CGPoint(x: self.view!.bounds.width / 2, y: 50)
+        mouthSpot!.alpha = 0.0
+        addChild(mouthSpot!)
         
-        if let musicURL = Bundle.main.url(forResource: "background", withExtension: "mp3") {
-            backgroundMusic = SKAudioNode(url: musicURL)
-            addChild(backgroundMusic)
+        if score != 30 {
+            createIceCream()
         }
         
-        //        tapRecognizer.addTarget(self, action:#selector(GameScene.shootMouth(_:)))
-        self.view!.addGestureRecognizer(tapRecognizer)
+        switch score {
+            
+        case 0...9:
+            if let musicURL = Bundle.main.url(forResource: "background", withExtension: "mp3") {
+                backgroundMusic = SoundNode(url: musicURL)
+                addChild(backgroundMusic)
+            }
+        case 10:
+            level2Func()
+        case 20:
+            level3Func()
+        case 30:
+            level4Func()
+        default:
+            break
+        }
+        
+//        self.view!.addGestureRecognizer(tapRecognizer)
     }
     
-    
-    //    func initPhysics() {
-    //        physicsWorld.contactDelegate = self
-    ////        self.physicsWorld.gravity = CGVector.zero
-    //
-    //    }
+    func createArc() {
+        
+        let origin = CGPoint(x: 0, y: -150)
+        arc = SKShapeNode(ellipseIn: CGRect(origin: origin, size: CGSize(width: view!.bounds.width, height: 300)))
+        arc!.fillColor = SKColor.blue
+        arc!.zPosition = 1
+        
+        addChild(arc!)
+    }
     
     func createHead() {
         
         head = SKSpriteNode(imageNamed: "head")
         head!.physicsBody?.affectedByGravity = false
         head!.position = CGPoint(x: view!.bounds.width / 2, y: 50)
+        head!.zPosition = 1
         head!.setScale(0.11)
         
         addChild(head!)
@@ -92,11 +145,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         mouth = Mouth(imageNamed: "mouth1")
         mouth!.position = CGPoint(x: self.view!.bounds.width / 2, y: 50)
-        mouth!.alpha = 0.0
+        
         
         addChild(mouth!)
         
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.5)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
         let readyMouth = SKAction.run {self.mouthIsReady = true}
         let seq = SKAction.sequence([fadeIn, readyMouth, mouthMovingAnimation!])
         
@@ -107,9 +160,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         iceCream = IceCream(imageNamed: "ice cream")
         
-        //        let RandW = CGFloat(Int(arc4random_uniform(UInt32(self.view!.bounds.width))))
-        //        let RandH = CGFloat(Int(arc4random_uniform(UInt32(self.view!.bounds.height))))
-        //        let initPos = CGPointMake(RandW,RandH)
         let initX = CGFloat(-iceCream!.size.width)
         let initY = CGFloat(view!.bounds.height + iceCream!.size.height)
         let initPos = CGPoint(x: initX,y: initY)
@@ -120,8 +170,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moveIceCream(initPos)
     }
     
-    func createStationaryIceCream() {
-    
+    func createBadIceCream() {
+        
         iceCream = IceCream(imageNamed: "ice cream")
         
         iceCream!.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
@@ -151,14 +201,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceCream!.run(SKAction.sequence([move1,repeatAction]))
     }
     
+    func moveSpike(_ spike: Spike, mul: CGFloat) {
+        
+            let moveDown = SKAction.moveBy(x: 0.0, y: -300.0 * mul, duration: 2.0)
+            let moveUp = SKAction.moveBy(x: 0.0, y: 300.0 * mul, duration: 2.0)
+            let seq = SKAction.sequence([moveDown,moveUp])
+            spike.run(SKAction.repeatForever(seq))
+    }
+    
     func swellIceCream() {
         
-        let swellUp = SKAction.scale(to: 0.3, duration: 0.5)
-        let swellDown = SKAction.scale(to: 0.06, duration: 0.5)
-        let seq = SKAction.sequence([swellUp,swellDown])
-        let swellAct = SKAction.repeatForever(seq)
+        let swellX = SKAction.scaleX(to: 1.0, duration: 1.0)
+        let swellY =  SKAction.scaleY(to: 1.4, duration: 1.0)
         
-        iceCream?.run(swellAct)
+        let seq = SKAction.group([swellX, swellY])
+        
+        iceCream!.run(seq)
+    }
+    
+    func moveBadIceCream(rate: Double) {
+        
+        let spin = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 2.0 / rate)
+        let repeatSpin = SKAction.repeatForever(spin)
+        
+        let right = CGPoint(x: view!.bounds.width, y: view!.bounds.height / 2)
+        let left = CGPoint(x: 0, y: view!.bounds.height / 2)
+        
+        let moveRight = SKAction.move(to: right, duration: 5.0 / rate)
+        let moveLeft = SKAction.move(to: left, duration: 5.0 / rate)
+        let move = SKAction.sequence([moveRight,moveLeft])
+        let repeatMove = SKAction.repeatForever(move)
+        let moveAndSpin = SKAction.group([repeatMove,repeatSpin])
+        
+        iceCream!.run(moveAndSpin)
     }
     
     func generateTimes(_ points: [CGPoint]) -> [Float] {
@@ -193,12 +268,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //        keep ice cream in the top half by selecting a random point in the bottom half and then adding half of the screens height to it.
         let widthMax = self.view!.bounds.width - 10
         let heightMax = self.view!.bounds.height / 2
-        //        let offset = heightMax - iceCream!.size.height / 2
-        //        let offset = CGFloat(10)
+//        let hOffset = CGFloat(heightMax - iceCream!.size.height / 2)
+//        let wOffset = CGFloat(heightMax - iceCream!.size.width / 2)
         
         let RandW1 = CGFloat(Int(arc4random_uniform(UInt32(15)))) + CGFloat(5)
         let RandH1 = CGFloat(Int(arc4random_uniform(UInt32(heightMax)))) + CGFloat(heightMax)
-        //        let RandH1 = CGFloat(Int(arc4random_uniform(UInt32(heightMax))))
         let point1 = CGPoint(x: RandW1, y: RandH1)
         
         let RandW2 = CGFloat(Int(UInt32(widthMax) - arc4random_uniform(UInt32(15)))) + CGFloat(5)
@@ -246,14 +320,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func playSound(resourceString: String, volume: Float, time: TimeInterval) {
+        
+        if let soundURL = Bundle.main.url(forResource: resourceString, withExtension: "mp3") {
+            let thisSound = SoundNode(url: soundURL)
+            thisSound.volume = volume
+            addChild(thisSound)
+            removeSound(thisSound, waitTime: time)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    func removeSound(_ sound:SoundNode, waitTime: TimeInterval) -> () {
+    
+        let removeSound = SKAction.run {sound.removeFromParent()}
+        let wait = SKAction.wait(forDuration: waitTime)
+        run(SKAction.sequence([wait,removeSound]))
+    }
+
+    
     
     
     func shootMouth() {
         
-        if let soundURL = Bundle.main.url(forResource: "highHatRoll", withExtension: "mp3") {
-            highHatSound = SKAudioNode(url: soundURL)
-            addChild(highHatSound)
-            removeSound(highHatSound, waitTime: 1.0)
+        mouthIsReady = false
+        
+        if let soundURL = Bundle.main.url(forResource: "teethclatter", withExtension: "mp3") {
+            teethChatterSound = SoundNode(url: soundURL)
+            teethChatterSound.volume = 0.7
+            addChild(teethChatterSound)
+            removeSound(teethChatterSound, waitTime: 2.0)
+        }
+        
+        let velocity = mouth!.physicsBody?.velocity
+        mouthSpeed = Int(sqrt((velocity!.dx * velocity!.dx) + (velocity!.dy * velocity!.dy)) / 10)
+        print(mouthSpeed!)
+        
+        while childNode(withName: "Mouth") != nil {
+            print("mouth is here")
+            if (!intersects(mouth!)) {
+                removeSound(teethChatterSound, waitTime: 0.0)
+            }
         }
         
         let wait = SKAction.wait(forDuration: 2.5)
@@ -261,8 +372,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.popMouth(self.mouth!.position)
         }
         let fadeBackIn = SKAction.run { self.fadeInMouth()}
+        
         let seq = SKAction.sequence([wait,killMouth,fadeBackIn])
         self.run(seq)
+        
+        
     }
     
     func popMouth(_ position: CGPoint) {
@@ -279,18 +393,100 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func removeSound(_ sound:SKAudioNode, waitTime: TimeInterval) -> () {
+    func playRandomBounceSound() {
         
-        let removeSound = SKAction.run {sound.removeFromParent()}
-        let wait = SKAction.wait(forDuration: waitTime)
-        run(SKAction.sequence([wait,removeSound]))
+        let randIndex = Int(arc4random_uniform(UInt32(5)))
+        let thisBounce = bounceSounds[randIndex]
+        
+        playSound(resourceString: thisBounce, volume: 0.6, time: 0.8)
     }
+    
+    func mouthEatIceCream(contactPoint: CGPoint) {
+        
+        if fancy {
+            
+            let fancyIdx = Int(arc4random_uniform(UInt32(fancySayings.count - 1)))
+            let fancyLabel = SKLabelNode.init(text: fancySayings[fancyIdx])
+            fancyLabel.zPosition = 1.0
+            fancyLabel.color = SKColor.red
+            fancyLabel.fontSize = 20
+            fancyLabel.horizontalAlignmentMode = .center
+            fancyLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            fancyLabel.zPosition = 1
+            addChild(fancyLabel)
+            
+            let wait = SKAction.wait(forDuration: 1.0)
+            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
+            let ridLabel = SKAction.run({fancyLabel.removeFromParent()})
+            let seq = SKAction.sequence([wait,fadeOut,ridLabel])
+            fancyLabel.run(seq)
+            
+        }
+        
+        // EXPLOSION //
+        
+        if let explosion1 = SKEmitterNode(fileNamed: "Explosion.sks"),
+            let explosion2 = SKEmitterNode(fileNamed: "Explosion.sks"),
+            let explosion3 = SKEmitterNode(fileNamed: "Explosion.sks") {
+            
+            let greenSprinkleBundlePath = Bundle.main.path(forResource: "greenSprinkle", ofType: "png")
+            let yellowSprinkleBundlePath = Bundle.main.path(forResource: "yellowSprinkle", ofType: "png")
+            
+            let greenSprinkle = UIImage(contentsOfFile: greenSprinkleBundlePath!)
+            let yellowSprinkle = UIImage(contentsOfFile: yellowSprinkleBundlePath!)
+            
+            explosion2.particleTexture = SKTexture.init(image: greenSprinkle!)
+            explosion3.particleTexture = SKTexture.init(image: yellowSprinkle!)
+            
+            explosion1.position = contactPoint
+            explosion2.position = contactPoint
+            explosion3.position = contactPoint
+            
+            iceCream!.removeAllActions()
+            iceCream!.removeFromParent()
+            
+            mouth!.removeAllActions()
+            mouth!.removeFromParent()
+            fancy = false
+            
+            removeSound(teethChatterSound, waitTime: 0.0)
+            playSound(resourceString: "coin", volume: 0.8, time: 1.0)
+            
+            self.addChild(explosion1)
+            self.addChild(explosion2)
+            self.addChild(explosion3)
+            
+            let removeExplotion = SKAction.run({
+                explosion1.removeFromParent()
+                explosion2.removeFromParent()
+                explosion3.removeFromParent()
+            })
+            
+            let wait = SKAction.wait(forDuration: 1)
+            
+            
+            explosion1.run(SKAction.sequence([wait, removeExplotion]))
+            explosion2.run(SKAction.sequence([wait, removeExplotion]))
+            explosion3.run(SKAction.sequence([wait, removeExplotion]))
+            
+        }
+        
+        //  END EXPLOSION //
+
+    }
+    
+//    func removeSound(_ sound:SoundNode, waitTime: TimeInterval) -> () {
+//        
+//        let removeSound = SKAction.run {sound.removeFromParent()}
+//        let wait = SKAction.wait(forDuration: waitTime)
+//        run(SKAction.sequence([wait,removeSound]))
+//    }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         let location = touch!.location(in: self)
-        if mouth!.frame.contains(location) && mouthIsReady {
+        if mouthSpot!.frame.contains(location) && mouthIsReady {
             touchPoint = location
             touching = true
         }
@@ -305,7 +501,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if touching {shootMouth()}
+        if touching && mouthIsReady {shootMouth()}
+        
+//        print(mouth!.physicsBody?.velocity.dy)
         
         touching = false
     }
@@ -316,6 +514,82 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let returnY = (vector.dy / 3000) * 500
         
         return CGVector(dx: returnX, dy: returnY)
+    }
+    
+    func firstHitFunc() {
+        
+        mouthHitIceCreamRegistered = true
+        let wait = SKAction.wait(forDuration: 0.5)
+        let resetAlreadyCalled = SKAction.run({self.mouthHitIceCreamRegistered = false})
+        let seq = SKAction.sequence([wait,resetAlreadyCalled])
+        self.run(seq)
+    }
+    
+    func toothExplosionFunc(location: CGPoint) {
+        
+        if let toothExplosion = SKEmitterNode(fileNamed: "ToothExplosion") {
+            toothExplosion.particleColor = SKColor.white
+            toothExplosion.particleColorSequence = nil;
+            toothExplosion.position = location
+            addChild(toothExplosion)
+            
+            toothExplosion.physicsBody?.velocity = (mouth!.physicsBody?.velocity)!
+            
+            playSound(resourceString: "teeth2", volume: 0.8, time: 2.0)
+        }
+        
+        mouth!.removeFromParent()
+
+    }
+    
+    func changeScore(good: Bool) {
+        
+        var value = arc4random_uniform(500)
+        if fancy {
+            value += 500
+        }
+        
+        if good {
+            displayedScore += Int(value)
+        } else {
+            displayedScore -= Int(value)
+}
+        scoreLabel!.text = "SCORE: \(displayedScore)"
+    }
+    
+    func makeSpeedLabel(position: CGPoint) {
+    
+        let string = String(describing: mouthSpeed!) + " MPH!"
+        let speedLbl = SKLabelNode(text: string)
+        speedLbl.zPosition = 1.0
+        speedLbl.fontColor = SKColor.black
+        speedLbl.fontSize = 15
+        speedLbl.position = position
+        speedLbl.zPosition = 1
+        speedLbl.fontName = "AmericanTypewriter-Bold"
+        addChild(speedLbl)
+        
+        let wait = SKAction.wait(forDuration: 1.0)
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
+        let ridLabel = SKAction.run({speedLbl.removeFromParent()})
+        let seq = SKAction.sequence([wait,fadeOut,ridLabel])
+        speedLbl.run(seq)
+    }
+    
+    func bumpUpSquareMoveRate() {
+        
+        squareRate += 0.2
+        
+        let bumpUpSquare1 = SKAction.run({
+            self.redSquare!.removeAllActions()
+            self.moveRedSquare(self.redSquare!)})
+        let bumpUpSquare2 = SKAction.run({
+            self.redSquare2!.removeAllActions()
+            self.moveRedSquare2(self.redSquare2!)})
+        
+        let group = SKAction.group([bumpUpSquare1,bumpUpSquare2])
+        
+        run(group)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -329,149 +603,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let contactPoint = contact.contactPoint
             
-            score += 1
-            scoreLabel!.text = "SCORE: \(score)"
-            
-            if fancy {
+            if !iceCreamGood {
                 
-                let fancyIdx = Int(arc4random_uniform(UInt32(fancySayings.count - 1)))
-                let fancyLabel = SKLabelNode.init(text: fancySayings[fancyIdx])
-                fancyLabel.zPosition = 1.0
-                fancyLabel.color = SKColor.red
-                fancyLabel.fontSize = 20
-                fancyLabel.horizontalAlignmentMode = .center
-                fancyLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
-                addChild(fancyLabel)
+                if !mouthHitIceCreamRegistered {
+                    
+                    firstHitFunc()
+                    
+                    removeSound(teethChatterSound, waitTime: 0.0)
                 
-                let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
-                let ridLabel = SKAction.run({fancyLabel.removeFromParent()})
-                let seq = SKAction.sequence([fadeOut,ridLabel])
-                fancyLabel.run(seq)
-                
-            }
-            
-            // EXPLOSION //
-            
-            if let explosion1 = SKEmitterNode(fileNamed: "Explosion.sks"),
-                let explosion2 = SKEmitterNode(fileNamed: "Explosion.sks"),
-                let explosion3 = SKEmitterNode(fileNamed: "Explosion.sks") {
-                
-                let greenSprinkleBundlePath = Bundle.main.path(forResource: "greenSprinkle", ofType: "png")
-                let yellowSprinkleBundlePath = Bundle.main.path(forResource: "yellowSprinkle", ofType: "png")
-                
-                let greenSprinkle = UIImage(contentsOfFile: greenSprinkleBundlePath!)
-                let yellowSprinkle = UIImage(contentsOfFile: yellowSprinkleBundlePath!)
-                
-                explosion2.particleTexture = SKTexture.init(image: greenSprinkle!)
-                explosion3.particleTexture = SKTexture.init(image: yellowSprinkle!)
-                
-                explosion1.position = contactPoint
-                explosion2.position = contactPoint
-                explosion3.position = contactPoint
-                
-                iceCream!.removeAllActions()
-                iceCream!.removeFromParent()
-                
-                mouth!.removeAllActions()
-                mouth!.removeFromParent()
-                fancy = false
-                //                fadeInMouth()
-                removeSound(highHatSound, waitTime: 0.0)
-                
-                if let soundURL = Bundle.main.url(forResource: "coin", withExtension: "mp3") {
-                    coinSound = SKAudioNode(url: soundURL)
-                    addChild(coinSound)
-                    removeSound(coinSound, waitTime: 1)
+                    toothExplosionFunc(location: contactPoint)
+                    
+                    if score > 30 {
+                        
+                        moveBadIceCreamRate -= 1.0
+                        iceCream!.removeAllActions()
+                        moveBadIceCream(rate: moveBadIceCreamRate)
+                        score -= 1
+                        changeScore(good: false)
+                    }
+                    
                 }
                 
-                self.addChild(explosion1)
-                self.addChild(explosion2)
-                self.addChild(explosion3)
+            } else if !mouthHitIceCreamRegistered {
                 
-                let removeExplotion = SKAction.run({
-                    explosion1.removeFromParent()
-                    explosion2.removeFromParent()
-                    explosion3.removeFromParent()
-                })
+                firstHitFunc()
+                makeSpeedLabel(position: contactPoint)
                 
-                let wait = SKAction.wait(forDuration: 1)
+                score += 1
+                changeScore(good: true)
+                scoreLabel!.text = "SCORE: \(displayedScore)"
                 
+                mouthEatIceCream(contactPoint: contactPoint)
                 
-                explosion1.run(SKAction.sequence([wait, removeExplotion]))
-                explosion2.run(SKAction.sequence([wait, removeExplotion]))
-                explosion3.run(SKAction.sequence([wait, removeExplotion]))
-                
-//                **************************************************
-//            **** SWITCHING ON SCORE TO DESIGNATE LEVELS, KINDA *****
-//                **************************************************
+                //                **************************************************
+                //            **** SWITCHING ON SCORE TO DESIGNATE LEVELS, KINDA *****
+                //                **************************************************
                 
                 switch score {
                     
-                    case 10:
-                        
-                        redSquare = RedSquare(imageNamed: "red square")
-                        redSquare2 = RedSquare(imageNamed: "red square")
-                        let createFirstSquare = SKAction.run({ self.createRedSquare(self.redSquare!)})
-                        let createSecondSquare = SKAction.run({ self.createRedSquare(self.redSquare2!)})
-                        let wait = SKAction.wait(forDuration: 3.0)
-                        let seq = SKAction.sequence([createFirstSquare,wait,createSecondSquare])
-                        self.run(seq)
-                        self.createIceCream()
-                    
-                    case 20:
-                    
-                        
-                        redSquare?.removeAllActions()
-                        redSquare?.removeFromParent()
-                        redSquare2?.removeAllActions()
-                        redSquare2?.removeFromParent()
-                        
-                        for i in 0...spikes.count - 1 {
-                            var thisSpike = spikes[i]
-                            thisSpike = Spike(imageNamed: "spike")
-                            createSpike(thisSpike!, position: CGPoint(x: CGFloat(i * 80) + 18 + (thisSpike!.size.width / 2), y: 500 ))
-                        }
-                        
-                        self.createIceCream()
-                    
-                    case 30:
-                        
-                        self.createStationaryIceCream()
-                        swellIceCream()
-                    
-                        for i in 0...spikes.count - 1 {
-                            let thisSpike = spikes[i]
-                            thisSpike?.removeFromParent()
-                        }
-                        
-                        toothbrush1 = Toothbrush(imageNamed: "toothbrush")
-                        toothbrush2 = Toothbrush(imageNamed: "toothbrush")
-                        toothbrush3 = Toothbrush(imageNamed: "toothbrush")
-                        
-                        let createBrush1 = SKAction.run({self.createToothbrush(brush: self.toothbrush1!)})
-                        let createBrush2 = SKAction.run({self.createToothbrush(brush: self.toothbrush2!)})
-                        let createBrush3 = SKAction.run({self.createToothbrush(brush: self.toothbrush3!)})
-                        
-                        let waitBetweenBrushes = SKAction.wait(forDuration: 0.4)
-                        let sequence = SKAction.sequence([createBrush1,waitBetweenBrushes,createBrush2,waitBetweenBrushes,createBrush3,waitBetweenBrushes])
-                        
-                        run(SKAction.repeatForever(sequence))
-                    
-                    case 31...40:
-                    
-                        self.createStationaryIceCream()
-                        swellIceCream()
-                    
-                    default:
-                        
-                        self.createIceCream()
+                case 10:
+                    transitionToNextLevel(level: "Level 2")
+                case 11...19:
+                    bumpUpSquareMoveRate()
+                    self.createIceCream()
+                case 20:
+                    transitionToNextLevel(level: "Level 3")
+                case 30:
+                    transitionToNextLevel(level: "Level 4")
+                case 31...40: break
+                default:
+                    self.createIceCream()
                 }
+                
                 
             }
             
-            //  END EXPLOSION //
-            
         }
+            
             
             //        *********  MOUTH HITS SPIKE  *********
             
@@ -482,22 +670,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let contactPoint = contact.contactPoint
             
-            if let toothExplosion = SKEmitterNode(fileNamed: "ToothExplosion") {
-                toothExplosion.particleColor = SKColor.white
-                //                toothExplosion.particleColorBlendFactor = 1.0;
-                toothExplosion.particleColorSequence = nil;
-                toothExplosion.position = contactPoint
-                addChild(toothExplosion)
-            }
+            toothExplosionFunc(location: contactPoint)
             
-            if let soundURL = Bundle.main.url(forResource: "teeth2", withExtension: "mp3") {
-                teethSound = SKAudioNode(url: soundURL)
-                addChild(teethSound)
-                removeSound(teethSound, waitTime: 2)
-            }
-            
-            mouth!.removeAllActions()
-            mouth!.removeFromParent()
             fancy = false
         }
             
@@ -510,18 +684,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             fancy = true
             
-            if let soundURL = Bundle.main.url(forResource: "bounce", withExtension: "mp3") {
-                bounceSound = SKAudioNode(url: soundURL)
-                addChild(bounceSound)
-                removeSound(bounceSound, waitTime: 1.5)
-            }
+            playRandomBounceSound()
             
             let bodies = contact.bodyA.node?.physicsBody?.allContactedBodies()
-            if (bodies?.count)! > 1 {
-                popMouth((contact.bodyA.node?.position)!)
+            // IF TOUCHING BOTH SQUARES AND MOUTH IS ABOVE BOTTOM POINT OF SQUARE, KILL MOUTH
+            if (bodies?.count)! > 1 && mouth!.position.y > redSquare!.position.y - (redSquare!.frame.height / 2) {
+                
+//                popMouth((contact.bodyA.node?.position)!)
+                toothExplosionFunc(location: contact.contactPoint)
             }
         }
-        
+            
             //        *********  MOUTH HITS TOOTHBRUSH  *********
             
         else if (contact.bodyA.categoryBitMask == BodyType.mouth.rawValue) &&
@@ -532,37 +705,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if contact.bodyA.node?.name == "toothbrush" {
                 let brush = contact.bodyA.node
                 brush?.removeFromParent()
+                mouthHitToothbrush()
             }
-            
+                
             else if contact.bodyB.node?.name == "toothbrush" {
                 let brush = contact.bodyB.node
                 brush?.removeFromParent()
+                mouthHitToothbrush()
             }
             
             
         }
         
-        
         //        *********  END COLLISION STATEMENTS  *********
         
     }
     
-    func createRedSquare(_ square:RedSquare) {
+    func mouthHitToothbrush() {
         
-        //        redSquare = RedSquare(imageNamed: "red square")
+        playSound(resourceString: "BrushSound", volume: 0.8, time: 1.5)
         
-        addChild(square)
-        //        let leftPosition = CGPoint(x: (redSquare?.size.width)! / 2, y: size.height / 2)
+        removeSound(teethChatterSound, waitTime: 0.0)
+        
+        moveBadIceCreamRate += 1.0
+        iceCream!.removeAllActions()
+        moveBadIceCream(rate: moveBadIceCreamRate)
+        score += 1
+        changeScore(good: true)
+    }
+    
+    func moveRedSquare(_ square:RedSquare) {
+
         let leftPosition = CGPoint(x: 0, y: size.height / 2)
-        //        let rightPosition = CGPoint(x: size.width - (redSquare?.size.width)! / 2, y: size.height / 2)
         let rightPosition = CGPoint(x: size.width, y: size.height / 2)
+        
         square.position = leftPosition
         
-        let moveRight = SKAction.move(to: rightPosition, duration: 2.0)
-        let moveLeft = SKAction.move(to: leftPosition, duration: 3.0)
-        let seq = SKAction.sequence([moveRight,moveLeft])
+        let moveRight = SKAction.move(to: rightPosition, duration: 2.5 / squareRate)
+        let moveLeft = SKAction.move(to: leftPosition, duration: 2.5 / squareRate)
+        let leftRightSeq = SKAction.sequence([moveRight,moveLeft])
         
-        square.run(SKAction.repeatForever(seq))
+        square.run(SKAction.repeatForever(leftRightSeq))
+    }
+    
+    func moveRedSquare2(_ square:RedSquare) {
+        
+        let leftPosition = CGPoint(x: 0, y: size.height / 2)
+        let rightPosition = CGPoint(x: size.width, y: size.height / 2)
+        
+        square.position = rightPosition
+        
+        let moveLeft = SKAction.move(to: leftPosition, duration: 2.25 / squareRate)
+        let moveRight = SKAction.move(to: rightPosition, duration: 2.25 / squareRate)
+
+        let leftRightSeq = SKAction.sequence([moveLeft,moveRight])
+        
+        square.run(SKAction.repeatForever(leftRightSeq))
     }
     
     func createSpike(_ aSpike:Spike, position: CGPoint) {
@@ -573,26 +771,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createToothbrush(brush: Toothbrush) {
         
-        //        switch brush {
-        //
-        //        case toothbrush1!:
-        //            toothbrush1 = Toothbrush(imageNamed: "toothbrush")
-        //
-        //        case toothbrush2!:
-        //            toothbrush2 = Toothbrush(imageNamed: "toothbrush")
-        //
-        //        case toothbrush3!:
-        //            toothbrush3 = Toothbrush(imageNamed: "toothbrush")
-        //
-        //        default:
-        //            print("no brush chosen")
-        //
-        //        }
-        
         addChild(brush)
         
-        let initRandomY = arc4random_uniform(UInt32(size.height))
-        let finalRandomY = arc4random_uniform(UInt32(size.height))
+        let yOffset = UInt32(size.height / 2)
+        
+        let initRandomY = arc4random_uniform(UInt32(size.height / 2)) + yOffset
+        let finalRandomY = arc4random_uniform(UInt32(size.height / 2)) + yOffset
         
         let leftPosition = CGPoint(x: -20, y: CGFloat(initRandomY))
         let rightPosition = CGPoint(x: size.width + 20, y: CGFloat(finalRandomY))
@@ -625,16 +809,138 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeScoreLabel() {
         
-        scoreLabel = SKLabelNode.init(text: "SCORE: \(score)")
+        scoreLabel = SKLabelNode.init(text: "SCORE: \(displayedScore)")
         scoreLabel!.color = SKColor.white
         scoreLabel!.horizontalAlignmentMode = .left
         scoreLabel!.position = CGPoint(x: 0, y: size.height - 20)
         scoreLabel!.fontSize = 20
+        scoreLabel!.zPosition = 1
         addChild(scoreLabel!)
     }
     
+    func transitionToNextLevel(level: String) {
+        
+        let fadeOut = SKAction._changeVolumeTo(endVolume: 0.0, duration: 2.0)
+        let waitForFade = SKAction.wait(forDuration: 2.0)
+//        let stopAud = SKAction.stop()
+//        let seq = SKAction.sequence([fadeOut,waitForFade,stopAud])
+        let seq = SKAction.sequence([fadeOut,waitForFade])
+        backgroundMusic.run(seq)
+        
+        let transition = SKTransition.crossFade(withDuration: 2.0)
+        let menuScene = NewLevelMenu(fileNamed: "NewLevelMenu")
+        weak var weakSelf = self
+        menuScene!.returnScene = weakSelf
+        menuScene!.setNewLevel(newLevel: (levelMenuData[level]?["level"])! )
+        
+        let block = {self.scene!.view!.presentScene(menuScene!, transition: transition)}
+        
+        let wait = SKAction.wait(forDuration: 1.5)
+        run(SKAction.sequence([wait, SKAction.run(block)]))
+        
+    }
+    
+    //        *********  NEW LEVEL FUNCTIONS  *********
+    
+    func level2Func() {
+        
+        if let musicURL = Bundle.main.url(forResource: "bgmusicLevel2", withExtension: "mp3") {
+            backgroundMusic = SoundNode(url: musicURL)
+            addChild(backgroundMusic)
+            let fadeIn = SKAction._changeVolumeTo(endVolume: 1.0, duration: 2.0)
+            backgroundMusic.run(fadeIn)
+        }
+        
+        redSquare = RedSquare(imageNamed: "red square")
+        redSquare2 = RedSquare(imageNamed: "red square")
+        addChild(redSquare!)
+        addChild(redSquare2!)
+        let createFirstSquare = SKAction.run({ self.moveRedSquare(self.redSquare!)})
+        let createSecondSquare = SKAction.run({ self.moveRedSquare2(self.redSquare2!)})
+        let group = SKAction.group([createFirstSquare,createSecondSquare])
+        self.run(group)
+    }
+    
+    func level3Func() {
+        
+        if let musicURL = Bundle.main.url(forResource: "bgmusicLevel4", withExtension: "mp3") {
+            backgroundMusic = SoundNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
+        
+        redSquare?.removeAllActions()
+        redSquare?.removeFromParent()
+        redSquare2?.removeAllActions()
+        redSquare2?.removeFromParent()
+        
+        for i in 0...spikes.count - 1 {
+            var thisSpike = spikes[i]
+            thisSpike = Spike(imageNamed: "spike")
+            
+            if i%2 == 0 {
+                createSpike(thisSpike!, position: CGPoint(x: CGFloat(i * 80) + 18 + (thisSpike!.size.width / 2), y: 500 ))
+                moveSpike(thisSpike!, mul: 1.0)
+            } else {
+                createSpike(thisSpike!, position: CGPoint(x: CGFloat(i * 80) + 18 + (thisSpike!.size.width / 2), y: 200 ))
+                moveSpike(thisSpike!, mul: -1.0)
+            }
+            
+        }
+    }
+    
+    
+    
+    func level4Func() {
+        
+        if let musicURL = Bundle.main.url(forResource: "bgmusicLevel3", withExtension: "mp3") {
+            backgroundMusic = SoundNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
+        
+        self.iceCreamGood = false
+        
+        self.createBadIceCream()
+        swellIceCream()
+        moveBadIceCream(rate: 1.0)
+        
+        
+        enumerateChildNodes(withName: "spike", using: { (node, stop) in
+            node.removeFromParent()
+        })
+        
+        toothbrush1 = Toothbrush(imageNamed: "toothbrush")
+        toothbrush2 = Toothbrush(imageNamed: "toothbrush")
+        toothbrush3 = Toothbrush(imageNamed: "toothbrush")
+        let createBrush1 = SKAction.run({self.createToothbrush(brush: self.toothbrush1!)})
+        let createBrush2 = SKAction.run({self.createToothbrush(brush: self.toothbrush2!)})
+        let createBrush3 = SKAction.run({self.createToothbrush(brush: self.toothbrush3!)})
+        
+        let waitBetweenBrushes = SKAction.wait(forDuration: 0.4)
+        let sequence = SKAction.sequence([createBrush1,waitBetweenBrushes,createBrush2,waitBetweenBrushes,createBrush3,waitBetweenBrushes])
+        
+        run(SKAction.repeatForever(sequence))
+    }
+    
+    
+    
+    
+    
+    
     override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
+        
+        bg1!.position = CGPoint(x: bg1!.position.x-1, y: bg1!.position.y);
+        bg2!.position = CGPoint(x: bg2!.position.x-1, y: bg2!.position.y);
+        
+        if (bg1!.position.x < -bg1!.size.width) {
+            bg1!.position = CGPoint(x: bg2!.position.x + bg2!.size.width, y: bg1!.position.y);
+        }
+        
+        
+        if (bg2!.position.x < -bg2!.size.width) {
+            bg2!.position = CGPoint(x: bg1!.position.x + bg1!.size.width, y: bg2!.position.y);
+        }
+        
         
         if touching {
             let dt:CGFloat = 1.0/60.0
@@ -642,7 +948,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let velocity = CGVector(dx: distance.dx/dt * 0.5, dy: distance.dy/dt * 0.5)
             let convVel = convertToRange(velocity)
             mouth!.physicsBody!.velocity = convVel
+            
+            if !arc!.contains(touchPoint) {
+                shootMouth()
+                touching = false
+            }
         }
     }
-    
 }

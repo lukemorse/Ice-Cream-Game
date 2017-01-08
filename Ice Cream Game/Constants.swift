@@ -27,5 +27,38 @@ enum BodyType:UInt32 {
     case toothbrush = 32
 }
 
-let levelDict: Dictionary<Int, Int> =
-    [1: 0, 2: 10, 3: 20, 4: 30, 5: 40, 6: 50, 7:60, 8: 70, 9: 80, 10: 90, 11: 100]
+
+let levelMenuData = [
+    
+    "Level 1" : [
+        
+        "level" : "Level 1",
+        "description" : "Throw your mouth at the ice cream to eat it and collect points!",
+        "picture" : "ice cream"
+    ],
+    
+    "Level 2" : [
+        
+        "level" : "Level 2",
+        "description" : "Bounce your mouths off of it to achieve extra style points!",
+        "picture" : "red square"
+    ],
+    
+    "Level 3" : [
+        
+        "level" : "Level 3",
+        "description" : "Don't hit the spikes with your mouth!",
+        "picture" : "spike"
+    ],
+    
+    "Level 4" : [
+        
+        "level" : "Level 4",
+        "description" : "Now, avoid the ice cream and collect the toothbrushes!",
+        "picture" : "spike"
+    ],
+    
+]
+
+var score = 0
+var displayedScore = 0

@@ -34,6 +34,7 @@ class RedSquare:SKSpriteNode {
         self.name = "redSquare"
         self.isUserInteractionEnabled = false
         self.setScale(0.9)
+        self.zPosition = 1
     }
     
 }

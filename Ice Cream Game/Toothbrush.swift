@@ -34,6 +34,7 @@ class Toothbrush:SKSpriteNode {
         self.name = "toothbrush"
         self.isUserInteractionEnabled = false
         self.setScale(0.3)
+        self.zPosition = 1
     }
     
 }

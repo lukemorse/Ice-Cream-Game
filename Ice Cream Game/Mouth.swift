@@ -29,7 +29,7 @@ class Mouth:SKSpriteNode {
         let body = SKPhysicsBody.init(rectangleOf: imageTexture.size())
         body.categoryBitMask = BodyType.mouth.rawValue
         body.contactTestBitMask = BodyType.iceCream.rawValue | BodyType.redSquare.rawValue | BodyType.spike.rawValue
-        body.collisionBitMask = BodyType.redSquare.rawValue
+        body.collisionBitMask = BodyType.redSquare.rawValue | BodyType.iceCream.rawValue
         body.affectedByGravity = false
         body.restitution = 1.0
         

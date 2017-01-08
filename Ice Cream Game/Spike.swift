@@ -34,6 +34,7 @@ class Spike:SKSpriteNode {
         self.name = "spike"
         self.isUserInteractionEnabled = false
         self.setScale(0.5)
+        self.zPosition = 1
     }
     
 }
