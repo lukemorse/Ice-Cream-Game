@@ -40,25 +40,26 @@ let levelMenuData = [
     "Level 2" : [
         
         "level" : "Level 2",
-        "description" : "Bounce your mouths off of it to achieve extra style points!",
+        "description" : "Glavny Universalny Megazin in Red Square, Moscow has some of the best ice cream available to this specific location.  At least that's what JacquelineRose5 on yelp had to say about it.  These red squares, however, are bouncy!  Bounce your mouths off of it to achieve extra points! Don't get squashed between them though!",
         "picture" : "red square"
     ],
     
     "Level 3" : [
         
         "level" : "Level 3",
-        "description" : "Don't hit the spikes with your mouth!",
+        "description" : "For obvious reasons, you should never run, mouth-first, into spikes.  Especially in this case, because they will get in the way of earning you points.",
         "picture" : "spike"
     ],
     
     "Level 4" : [
         
         "level" : "Level 4",
-        "description" : "Now, avoid the ice cream and collect the toothbrushes!",
-        "picture" : "spike"
+        "description" : "While ice cream is a great source of calcium, protein, and vitamin D, what a lot of people don't know is that it also contains a decent amount of sugar.  Every once in a while, we have to take a break from ice cream and brush our teeth. So let's do that in this final level.",
+        "picture" : "toothbrush"
     ],
     
 ]
 
+var mouthCount: Int?
 var score = 0
 var displayedScore = 0

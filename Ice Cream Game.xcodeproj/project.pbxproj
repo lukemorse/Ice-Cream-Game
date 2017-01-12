@@ -13,6 +13,7 @@
 		AF193AD11DA17C4400C8F1E8 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */; };
 		AF4430BF1DAAC0C300A1FA33 /* NewLevelMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */; };
 		AF4430C11DAAC27300A1FA33 /* NewLevelMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */; };
+		AF702D6F1E24539900EA35D4 /* HighScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF702D6E1E24539900EA35D4 /* HighScores.swift */; };
 		AF742E091DF854F8009BF9D1 /* bgmusicLevel2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF742E071DF854F8009BF9D1 /* bgmusicLevel2.mp3 */; };
 		AF742E0A1DF854F8009BF9D1 /* bgmusicLevel3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */; };
 		AF742E0C1DF85F85009BF9D1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF742E0B1DF85F85009BF9D1 /* Extentions.swift */; };
@@ -51,6 +52,7 @@
 		AF8F9E401DFCA58A00F4F9EB /* bounce3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF8F9E3B1DFCA58A00F4F9EB /* bounce3.mp3 */; };
 		AF8F9E411DFCA58A00F4F9EB /* bounce4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF8F9E3C1DFCA58A00F4F9EB /* bounce4.mp3 */; };
 		AF8F9E421DFCA58A00F4F9EB /* bounce5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF8F9E3D1DFCA58A00F4F9EB /* bounce5.mp3 */; };
+		AFA3CDF61E2565170014E381 /* HighScores.sks in Resources */ = {isa = PBXBuildFile; fileRef = AFA3CDF51E2565170014E381 /* HighScores.sks */; };
 		AFC985AF1E01B504003A41C7 /* BrushSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFC985AE1E01B504003A41C7 /* BrushSound.mp3 */; };
 		AFC985B21E01D0D1003A41C7 /* bgmusicLevel4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFC985B01E01D0D1003A41C7 /* bgmusicLevel4.mp3 */; };
 		AFC985B31E01D0D1003A41C7 /* teethclatter.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFC985B11E01D0D1003A41C7 /* teethclatter.mp3 */; };
@@ -64,6 +66,7 @@
 		AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
 		AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLevelMenu.swift; sourceTree = "<group>"; };
 		AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewLevelMenu.sks; sourceTree = "<group>"; };
+		AF702D6E1E24539900EA35D4 /* HighScores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScores.swift; sourceTree = "<group>"; };
 		AF742E071DF854F8009BF9D1 /* bgmusicLevel2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel2.mp3; sourceTree = "<group>"; };
 		AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel3.mp3; sourceTree = "<group>"; };
 		AF742E0B1DF85F85009BF9D1 /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		AF8F9E3B1DFCA58A00F4F9EB /* bounce3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bounce3.mp3; sourceTree = "<group>"; };
 		AF8F9E3C1DFCA58A00F4F9EB /* bounce4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bounce4.mp3; sourceTree = "<group>"; };
 		AF8F9E3D1DFCA58A00F4F9EB /* bounce5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bounce5.mp3; sourceTree = "<group>"; };
+		AFA3CDF51E2565170014E381 /* HighScores.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HighScores.sks; sourceTree = "<group>"; };
 		AFC985AE1E01B504003A41C7 /* BrushSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = BrushSound.mp3; sourceTree = "<group>"; };
 		AFC985B01E01D0D1003A41C7 /* bgmusicLevel4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel4.mp3; sourceTree = "<group>"; };
 		AFC985B11E01D0D1003A41C7 /* teethclatter.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teethclatter.mp3; sourceTree = "<group>"; };
@@ -145,7 +149,6 @@
 				AFCFB1BC1DC6646800220EB7 /* View */,
 				AFCFB1BD1DC6646D00220EB7 /* Controller */,
 				AFCFB1BE1DC6647300220EB7 /* Utility */,
-				AF75E9C51D96EEA200D7C045 /* SpritePics */,
 				AF75E9A71D96EE2D00D7C045 /* Main.storyboard */,
 				AF75E9AA1D96EE2D00D7C045 /* Assets.xcassets */,
 				AF75E9AC1D96EE2D00D7C045 /* LaunchScreen.storyboard */,
@@ -199,15 +202,16 @@
 			isa = PBXGroup;
 			children = (
 				AF75E9A31D96EE2D00D7C045 /* GameScene.swift */,
-				AF742E0B1DF85F85009BF9D1 /* Extentions.swift */,
 				AF742E0D1DF85FBC009BF9D1 /* SoundNode.swift */,
 				AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */,
+				AF702D6E1E24539900EA35D4 /* HighScores.swift */,
 				AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */,
 				AF75E9E01D96EF2E00D7C045 /* Toothbrush.swift */,
 				AF75E9E21D96EF2E00D7C045 /* Spike.swift */,
 				AF75E9E31D96EF2E00D7C045 /* RedSquare.swift */,
 				AF75E9E41D96EF2E00D7C045 /* Mouth.swift */,
 				AF75E9E51D96EF2E00D7C045 /* IceCream.swift */,
+				AF742E0B1DF85F85009BF9D1 /* Extentions.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -215,10 +219,12 @@
 		AFCFB1BC1DC6646800220EB7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AF75E9C51D96EEA200D7C045 /* SpritePics */,
 				AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */,
 				AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */,
 				AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */,
 				AF75E9A11D96EE2D00D7C045 /* Actions.sks */,
+				AFA3CDF51E2565170014E381 /* HighScores.sks */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -326,6 +332,7 @@
 				AF8F9E411DFCA58A00F4F9EB /* bounce4.mp3 in Resources */,
 				AF75E9AE1D96EE2D00D7C045 /* LaunchScreen.storyboard in Resources */,
 				AF75E9DA1D96EEDD00D7C045 /* red square.png in Resources */,
+				AFA3CDF61E2565170014E381 /* HighScores.sks in Resources */,
 				AF75E9C31D96EE6A00D7C045 /* mouth.atlas in Resources */,
 				AF75E9BE1D96EE4E00D7C045 /* highHatRoll.mp3 in Resources */,
 				AFC985B31E01D0D1003A41C7 /* teethclatter.mp3 in Resources */,
@@ -352,6 +359,7 @@
 				AF75E9E61D96EF2E00D7C045 /* Toothbrush.swift in Sources */,
 				AF75E9EA1D96EF2E00D7C045 /* Mouth.swift in Sources */,
 				AF75E9A61D96EE2D00D7C045 /* GameViewController.swift in Sources */,
+				AF702D6F1E24539900EA35D4 /* HighScores.swift in Sources */,
 				AF193ACF1DA1645F00C8F1E8 /* MainMenu.swift in Sources */,
 				AF4430BF1DAAC0C300A1FA33 /* NewLevelMenu.swift in Sources */,
 				AF742E0C1DF85F85009BF9D1 /* Extentions.swift in Sources */,

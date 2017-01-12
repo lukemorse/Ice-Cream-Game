@@ -70,8 +70,6 @@ class NewLevelMenu: SKScene, PlayButtonDelegate {
         self.titleLabel!.name = "Menu"
         self.titleLabel!.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 4)
         
-//        descLabel = UILabel(frame: CGRect(x: 10, y: 10, width: view.bounds.width, height: view.bounds.height / 2))
-        
         descLabel = SKMultilineLabel(text: "", labelWidth: Int(self.view!.bounds.width), pos: CGPoint(x: size.width / 2, y: size.height - 20))
         descLabel!.fontSize = 25
         descLabel!.fontColor = UIColor.blue

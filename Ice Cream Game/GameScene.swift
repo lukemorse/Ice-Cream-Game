@@ -141,6 +141,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fadeInMouth() {
         
+        if mouthCount == 1 {lastMouthFunc()}
+        if mouthCount == 0 {endGame()}
+        
         mouthIsReady = false
         
         mouth = Mouth(imageNamed: "mouth1")
@@ -330,22 +333,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
-    
-    
-    
-    
     func removeSound(_ sound:SoundNode, waitTime: TimeInterval) -> () {
     
         let removeSound = SKAction.run {sound.removeFromParent()}
         let wait = SKAction.wait(forDuration: waitTime)
         run(SKAction.sequence([wait,removeSound]))
     }
-
-    
-    
     
     func shootMouth() {
+        
+        mouthCount! -= 1
         
         mouthIsReady = false
         
@@ -376,6 +373,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let seq = SKAction.sequence([wait,killMouth,fadeBackIn])
         self.run(seq)
         
+        
+    }
+    
+    func lastMouthFunc() {
+        
+        let label = SKLabelNode(text: "OH NO! LAST MOUTH!")
+        label.zPosition = 1.0
+        label.fontColor = SKColor.black
+        label.fontSize = 25
+        label.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
+        label.zPosition = 1
+        label.fontName = "AmericanTypewriter-Bold"
+        addChild(label)
+        
+        let wait = SKAction.wait(forDuration: 1.0)
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
+        let ridLabel = SKAction.run({label.removeFromParent()})
+        let seq = SKAction.sequence([wait,fadeOut,ridLabel])
+        label.run(seq)
         
     }
     
@@ -921,7 +937,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(sequence))
     }
     
-    
+    func endGame() {
+        
+        let fadeOut = SKAction._changeVolumeTo(endVolume: 0.0, duration: 2.0)
+        let waitForFade = SKAction.wait(forDuration: 2.0)
+        let seq = SKAction.sequence([fadeOut,waitForFade])
+        backgroundMusic.run(seq)
+        
+        let transition = SKTransition.crossFade(withDuration: 2.0)
+        let highScoresScreen = HighScores(fileNamed: "HighScores")
+        
+        let block = {self.scene!.view!.presentScene(highScoresScreen!, transition: transition)}
+        
+        let wait = SKAction.wait(forDuration: 1.5)
+        run(SKAction.sequence([wait, SKAction.run(block)]))
+        
+    }
     
     
     
