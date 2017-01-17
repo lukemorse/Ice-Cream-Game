@@ -13,9 +13,8 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var scoreLabel: SKLabelNode?
-    var fancyCongratsLabel: SKLabelNode?
     var fancy = false
-    var mouthSpeed: Int?
+    var mouthSpeed: Int = 0
     
     var touchPoint: CGPoint = CGPoint()
     var touching: Bool = false
@@ -111,6 +110,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             level3Func()
         case 30:
             level4Func()
+        case 40:
+            level5Func()
+        case 50:
+            level6Func()
         default:
             break
         }
@@ -355,7 +358,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let velocity = mouth!.physicsBody?.velocity
         mouthSpeed = Int(sqrt((velocity!.dx * velocity!.dx) + (velocity!.dy * velocity!.dy)) / 10)
-        print(mouthSpeed!)
+        
+        switch score {
+            
+        case 10...19:
+            if mouthSpeed > 30 {
+                iceCreamGood = false
+            } else { iceCreamGood = true }
+        case 30...39:
+            if mouthSpeed < 70 {
+                iceCreamGood = false
+            } else { iceCreamGood = true }
+        default: break
+        }
         
         while childNode(withName: "Mouth") != nil {
             print("mouth is here")
@@ -364,7 +379,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        let wait = SKAction.wait(forDuration: 2.5)
+        let wait = SKAction.wait(forDuration: 3.5)
         let killMouth = SKAction.run {
             self.popMouth(self.mouth!.position)
         }
@@ -423,7 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let fancyIdx = Int(arc4random_uniform(UInt32(fancySayings.count - 1)))
             let fancyLabel = SKLabelNode.init(text: fancySayings[fancyIdx])
-            fancyLabel.zPosition = 1.0
+            fancyLabel.zPosition = 3
             fancyLabel.color = SKColor.red
             fancyLabel.fontSize = 20
             fancyLabel.horizontalAlignmentMode = .center
@@ -479,11 +494,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             })
             
             let wait = SKAction.wait(forDuration: 1)
+
+            self.run(SKAction.sequence([wait, removeExplotion]))
             
-            
-            explosion1.run(SKAction.sequence([wait, removeExplotion]))
-            explosion2.run(SKAction.sequence([wait, removeExplotion]))
-            explosion3.run(SKAction.sequence([wait, removeExplotion]))
+//            explosion1.run(SKAction.sequence([wait, removeExplotion]))
+//            explosion2.run(SKAction.sequence([wait, removeExplotion]))
+//            explosion3.run(SKAction.sequence([wait, removeExplotion]))
             
         }
         
@@ -575,7 +591,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeSpeedLabel(position: CGPoint) {
     
-        let string = String(describing: mouthSpeed!) + " MPH!"
+        let string = String(describing: mouthSpeed) + " MPH!"
         let speedLbl = SKLabelNode(text: string)
         speedLbl.zPosition = 1.0
         speedLbl.fontColor = SKColor.black
@@ -624,12 +640,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !mouthHitIceCreamRegistered {
                     
                     firstHitFunc()
+                    makeSpeedLabel(position: contactPoint)
                     
                     removeSound(teethChatterSound, waitTime: 0.0)
                 
                     toothExplosionFunc(location: contactPoint)
                     
-                    if score > 30 {
+                    if score > 50 {
                         
                         moveBadIceCreamRate -= 1.0
                         iceCream!.removeAllActions()
@@ -659,14 +676,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 case 10:
                     transitionToNextLevel(level: "Level 2")
-                case 11...19:
-                    bumpUpSquareMoveRate()
-                    self.createIceCream()
                 case 20:
                     transitionToNextLevel(level: "Level 3")
                 case 30:
                     transitionToNextLevel(level: "Level 4")
-                case 31...40: break
+                case 31...39:
+                    bumpUpSquareMoveRate()
+                    self.createIceCream()
+                case 40:
+                    transitionToNextLevel(level: "Level 5")
+                case 50:
+                    transitionToNextLevel(level: "Level 6")
+                case 51...60: break
                 default:
                     self.createIceCream()
                 }
@@ -838,8 +859,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let fadeOut = SKAction._changeVolumeTo(endVolume: 0.0, duration: 2.0)
         let waitForFade = SKAction.wait(forDuration: 2.0)
-//        let stopAud = SKAction.stop()
-//        let seq = SKAction.sequence([fadeOut,waitForFade,stopAud])
         let seq = SKAction.sequence([fadeOut,waitForFade])
         backgroundMusic.run(seq)
         
@@ -867,6 +886,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             backgroundMusic.run(fadeIn)
         }
         
+    }
+    
+    func level3Func() {
+        
+        if let musicURL = Bundle.main.url(forResource: "bgmusicLevel2", withExtension: "mp3") {
+            backgroundMusic = SoundNode(url: musicURL)
+            addChild(backgroundMusic)
+            let fadeIn = SKAction._changeVolumeTo(endVolume: 1.0, duration: 2.0)
+            backgroundMusic.run(fadeIn)
+        }
+        
         redSquare = RedSquare(imageNamed: "red square")
         redSquare2 = RedSquare(imageNamed: "red square")
         addChild(redSquare!)
@@ -877,7 +907,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.run(group)
     }
     
-    func level3Func() {
+    func level4Func() {
         
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel4", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
@@ -888,6 +918,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         redSquare?.removeFromParent()
         redSquare2?.removeAllActions()
         redSquare2?.removeFromParent()
+    }
+    
+    func level5Func() {
+        
+        if let musicURL = Bundle.main.url(forResource: "bgmusicLevel4", withExtension: "mp3") {
+            backgroundMusic = SoundNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
         
         for i in 0...spikes.count - 1 {
             var thisSpike = spikes[i]
@@ -906,7 +944,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-    func level4Func() {
+    func level6Func() {
         
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel3", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
@@ -951,6 +989,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let wait = SKAction.wait(forDuration: 1.5)
         run(SKAction.sequence([wait, SKAction.run(block)]))
+        
+    }
+    
+
+    func gotHighScoreFunc() {
+        
+        let congratsLabel = SKLabelNode(text: "CONGRATS! YOU GOT A HIGH SCORE!")
+        congratsLabel.zPosition = 1.0
+        congratsLabel.fontColor = SKColor.black
+        congratsLabel.fontSize = 25
+        congratsLabel.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
+        congratsLabel.zPosition = 1
+        congratsLabel.fontName = "AmericanTypewriter-Bold"
+        addChild(congratsLabel)
+        
         
     }
     

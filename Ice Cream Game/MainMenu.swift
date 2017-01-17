@@ -36,7 +36,7 @@ class MainMenu: SKScene {
         
         backgroundChange()
         
-        mouthCount = 2
+        mouthCount = 100
     }
     
     func backgroundChange() {

@@ -40,18 +40,32 @@ let levelMenuData = [
     "Level 2" : [
         
         "level" : "Level 2",
-        "description" : "Glavny Universalny Megazin in Red Square, Moscow has some of the best ice cream available to this specific location.  At least that's what JacquelineRose5 on yelp had to say about it.  These red squares, however, are bouncy!  Bounce your mouths off of it to achieve extra points! Don't get squashed between them though!",
+        "description" : "Brain freeze, or sphenopalatine ganglioneuralgia, happens when you eat ice cream too fast.  Throw your mouths no faster than 30 MPH!",
         "picture" : "red square"
     ],
     
     "Level 3" : [
+        
+        "level" : "Level 2",
+        "description" : "Glavny Universalny Megazin in Red Square, Moscow has some of the best ice cream available to this specific location.  At least that's what JacquelineRose5 on yelp had to say about it.  These red squares, however, are bouncy!  Bounce your mouths off of it to achieve extra points! Don't get squashed between them though!",
+        "picture" : "red square"
+    ],
+    
+    "Level 4" : [
+        
+        "level" : "Level 3",
+        "description" : "Earlier, we learned about brain freeze and the importance of eating ice cream slowly.  However, when the sun comes out, we have to make sure to eat all of our ice cream before it melts.  Throw your mouths no slower than 65 MPH!",
+        "picture" : "spike"
+    ],
+    
+    "Level 5" : [
         
         "level" : "Level 3",
         "description" : "For obvious reasons, you should never run, mouth-first, into spikes.  Especially in this case, because they will get in the way of earning you points.",
         "picture" : "spike"
     ],
     
-    "Level 4" : [
+    "Level 6" : [
         
         "level" : "Level 4",
         "description" : "While ice cream is a great source of calcium, protein, and vitamin D, what a lot of people don't know is that it also contains a decent amount of sugar.  Every once in a while, we have to take a break from ice cream and brush our teeth. So let's do that in this final level.",
@@ -61,5 +75,5 @@ let levelMenuData = [
 ]
 
 var mouthCount: Int?
-var score = 0
+var score = 9
 var displayedScore = 0
