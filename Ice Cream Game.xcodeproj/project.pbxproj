@@ -57,6 +57,7 @@
 		AFC985B21E01D0D1003A41C7 /* bgmusicLevel4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFC985B01E01D0D1003A41C7 /* bgmusicLevel4.mp3 */; };
 		AFC985B31E01D0D1003A41C7 /* teethclatter.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFC985B11E01D0D1003A41C7 /* teethclatter.mp3 */; };
 		AFCFB1BA1DC6644500220EB7 /* SKMultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCFB1B91DC6644500220EB7 /* SKMultilineLabel.swift */; };
+		AFE855101E3040FA00EE4F2B /* tablePattern.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE8550F1E3040FA00EE4F2B /* tablePattern.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +113,7 @@
 		AFC985B01E01D0D1003A41C7 /* bgmusicLevel4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel4.mp3; sourceTree = "<group>"; };
 		AFC985B11E01D0D1003A41C7 /* teethclatter.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teethclatter.mp3; sourceTree = "<group>"; };
 		AFCFB1B91DC6644500220EB7 /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
+		AFE8550F1E3040FA00EE4F2B /* tablePattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tablePattern.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				AF75E9CC1D96EEDD00D7C045 /* Explosion.sks */,
+				AFE8550F1E3040FA00EE4F2B /* tablePattern.png */,
 				AF75E9CD1D96EEDD00D7C045 /* ToothExplosion.sks */,
 				AF75E9CE1D96EEDD00D7C045 /* greenSprinkle.png */,
 				AF75E9CF1D96EEDD00D7C045 /* yellowSprinkle.png */,
@@ -320,6 +323,7 @@
 				AF8F9E401DFCA58A00F4F9EB /* bounce3.mp3 in Resources */,
 				AF75E9AB1D96EE2D00D7C045 /* Assets.xcassets in Resources */,
 				AF193AD11DA17C4400C8F1E8 /* MainMenu.sks in Resources */,
+				AFE855101E3040FA00EE4F2B /* tablePattern.png in Resources */,
 				AF75E9D61D96EEDD00D7C045 /* Explosion.sks in Resources */,
 				AF8F9E421DFCA58A00F4F9EB /* bounce5.mp3 in Resources */,
 				AF75E9BD1D96EE4E00D7C045 /* background.mp3 in Resources */,

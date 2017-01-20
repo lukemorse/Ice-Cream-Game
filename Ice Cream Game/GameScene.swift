@@ -41,12 +41,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var teethChatterSound: SoundNode!
     var coinSound: SoundNode!
     var teethSound: SoundNode!
-    var bounceSound: SoundNode!
     var badIceCreamSound: SoundNode!
     var brushSound: SoundNode!
     var bg1: SKSpriteNode?
     var bg2: SKSpriteNode?
     let bounceSounds = ["bounce1","bounce2","bounce3","bounce4","bounce5",]
+    let pluckSounds = ["pluck1","pluck2","pluck3","pluck4","pluck5","pluck6"]
     
     var iceCreamGood = true
     var mouthHitIceCreamRegistered = false
@@ -93,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mouthSpot!.alpha = 0.0
         addChild(mouthSpot!)
         
-        if score != 30 {
+        if score != 30 && score != 50 {
             createIceCream()
         }
         
@@ -125,7 +125,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let origin = CGPoint(x: 0, y: -150)
         arc = SKShapeNode(ellipseIn: CGRect(origin: origin, size: CGSize(width: view!.bounds.width, height: 300)))
-        arc!.fillColor = SKColor.blue
+        arc!.fillColor = SKColor.white
+        let tablePattern = UIImage(named: "tablePattern")
+        let tablePatternTexture = SKTexture(image: tablePattern!)
+        arc!.fillTexture = tablePatternTexture
+        arc!.lineWidth = 1.0
+//        arc!.glowWidth = 3.0
         arc!.zPosition = 1
         
         addChild(arc!)
@@ -640,7 +645,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !mouthHitIceCreamRegistered {
                     
                     firstHitFunc()
-                    makeSpeedLabel(position: contactPoint)
+                    
+                    if score >= 10 && score <= 19 || score >= 30 && score <= 39 {
+                        makeSpeedLabel(position: contactPoint)
+                    }
+                    
                     
                     removeSound(teethChatterSound, waitTime: 0.0)
                 
@@ -678,11 +687,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     transitionToNextLevel(level: "Level 2")
                 case 20:
                     transitionToNextLevel(level: "Level 3")
-                case 30:
-                    transitionToNextLevel(level: "Level 4")
-                case 31...39:
+                case 21...29:
                     bumpUpSquareMoveRate()
                     self.createIceCream()
+                case 30:
+                    transitionToNextLevel(level: "Level 4")
                 case 40:
                     transitionToNextLevel(level: "Level 5")
                 case 50:
@@ -918,6 +927,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         redSquare?.removeFromParent()
         redSquare2?.removeAllActions()
         redSquare2?.removeFromParent()
+        
+        self.createIceCream()
     }
     
     func level5Func() {
