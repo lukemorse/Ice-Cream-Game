@@ -75,5 +75,5 @@ let levelMenuData = [
 ]
 
 var mouthCount: Int?
-var score = 0
+var score = 20
 var displayedScore = 0
