@@ -11,6 +11,7 @@
 		AF193ACD1DA15AA300C8F1E8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */; };
 		AF193ACF1DA1645F00C8F1E8 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */; };
 		AF193AD11DA17C4400C8F1E8 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */; };
+		AF325B271E42691300FA76FF /* SettingsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF325B261E42691300FA76FF /* SettingsNode.swift */; };
 		AF43E8B91E35836E00237A35 /* bgmusicLevel5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8B71E35836E00237A35 /* bgmusicLevel5.mp3 */; };
 		AF43E8BA1E35836E00237A35 /* bgmusicLevel6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8B81E35836E00237A35 /* bgmusicLevel6.mp3 */; };
 		AF43E8BC1E35844E00237A35 /* bgmusicLevel1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8BB1E35844E00237A35 /* bgmusicLevel1.mp3 */; };
@@ -77,6 +78,7 @@
 		AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
+		AF325B261E42691300FA76FF /* SettingsNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsNode.swift; sourceTree = "<group>"; };
 		AF43E8B71E35836E00237A35 /* bgmusicLevel5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel5.mp3; sourceTree = "<group>"; };
 		AF43E8B81E35836E00237A35 /* bgmusicLevel6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel6.mp3; sourceTree = "<group>"; };
 		AF43E8BB1E35844E00237A35 /* bgmusicLevel1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel1.mp3; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 			children = (
 				AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */,
 				AF75E9A31D96EE2D00D7C045 /* GameScene.swift */,
+				AF325B261E42691300FA76FF /* SettingsNode.swift */,
 				AF702D6E1E24539900EA35D4 /* HighScores.swift */,
 				AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */,
 				AF75E9E01D96EF2E00D7C045 /* Toothbrush.swift */,
@@ -405,6 +408,7 @@
 			files = (
 				AF75E9E71D96EF2E00D7C045 /* Constants.swift in Sources */,
 				AF75E9A41D96EE2D00D7C045 /* GameScene.swift in Sources */,
+				AF325B271E42691300FA76FF /* SettingsNode.swift in Sources */,
 				AFCFB1BA1DC6644500220EB7 /* SKMultilineLabel.swift in Sources */,
 				AF742E0E1DF85FBC009BF9D1 /* SoundNode.swift in Sources */,
 				AF75E9E61D96EF2E00D7C045 /* Toothbrush.swift in Sources */,

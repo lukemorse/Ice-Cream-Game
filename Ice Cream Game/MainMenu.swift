@@ -100,8 +100,6 @@ class MainMenu: SKScene {
             mouthMovements.append(thisAction)
         }
         
-        print(pointList)
-        
         iceCreamChar!.run(SKAction.repeatForever(SKAction.sequence(iceCreamMovements)))
         mouthChar!.run(SKAction.repeatForever(SKAction.sequence(mouthMovements)))
         

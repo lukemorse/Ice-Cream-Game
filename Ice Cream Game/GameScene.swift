@@ -31,14 +31,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var redSquare2: RedSquare?
     var head: SKSpriteNode?
     var spikes = [Spike?](repeating: nil, count: 4)
-    var gearIcon: SKSpriteNode?
+    var settingsNode: SettingsNode?
     
     var toothbrush1: Toothbrush?
     var toothbrush2: Toothbrush?
     var toothbrush3: Toothbrush?
     
     var mouthMovingAnimation: SKAction?
-//    let tapRecognizer = UITapGestureRecognizer()
     
     var backgroundMusic: SoundNode!
     var teethChatterSound: SoundNode?
@@ -50,13 +49,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bg2: SKSpriteNode?
     let bounceSounds = ["bounce1","bounce2","bounce3","bounce4","bounce5",]
     let pluckSounds = ["pluck1","pluck2","pluck3","pluck4","pluck5","pluck6"]
-    
-    var settingsMenu: SKShapeNode?
-    var areYouSureMenu: SKShapeNode?
-    var menuButtons: [MenuButton]?
-    var nahButton: MenuButton?
-    var yeahButton: MenuButton?
-    var sureLabel: SKLabelNode?
     
     var iceCreamGood = true
     var mouthHitIceCreamRegistered = false
@@ -89,12 +81,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bg2!.setScale(0.2)
         worldNode!.addChild(bg2!)
         
-        gearIcon = SKSpriteNode.init(imageNamed: "gear")
-        gearIcon!.setScale(0.05)
-        gearIcon!.position = CGPoint(x: view.bounds.width - (gearIcon!.size.width / 2), y: view.bounds.height - (gearIcon!.size.height / 2))
-//        gearIcon!.position = CGPoint(x: self.view!.bounds.width / 2, y: )
-        gearIcon!.zPosition = 1
-        worldNode!.addChild(gearIcon!)
+        settingsNode = SettingsNode.init(imageNamed: "gear", targetScene: self.scene!)
+        settingsNode!.parentViewBounds = self.view!.bounds
+        settingsNode!.setScale(0.05)
+        settingsNode!.position = CGPoint(x: view.bounds.width - (settingsNode!.size.width / 2), y: view.bounds.height - (settingsNode!.size.height / 2))
+        settingsNode!.zPosition = 1
+        self.addChild(settingsNode!)
+        
         
         physicsWorld.contactDelegate = self
         
@@ -508,77 +501,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
     }
-    
-    func bringUpMenu(menu: SKShapeNode, zPos: CGFloat) {
-        
-        menu.fillColor = UIColor.blue
-        menu.zPosition = zPos
-        menu.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
-        menu.strokeColor = UIColor.red
-        menu.glowWidth = 3.0
-        menu.alpha = 1.0
-        
-        self.addChild(menu)
-    }
-    
-    func bringUpAreYouSureMenu() {
-        
-        let menuSize = CGSize(width: view!.bounds.width * 0.67, height: view!.bounds.height * 0.67)
-        areYouSureMenu = SKShapeNode.init(rectOf: menuSize, cornerRadius: 0.15)
-        bringUpMenu(menu: areYouSureMenu!, zPos: 6)
-        
-        sureLabel = SKLabelNode(text: "Leave Game?")
-        sureLabel!.position = CGPoint(x: areYouSureMenu!.position.x, y: view!.bounds.height * 0.7)
-        
-        let buttonSize = CGSize(width: menuSize.width * 0.75, height: view!.bounds.height * 0.08)
-        
-        let yeahButtonOrigin = CGPoint(x: areYouSureMenu!.position.x / 2, y: view!.bounds.height * 0.5)
-        let nahButtonOrigin = CGPoint(x: areYouSureMenu!.position.x / 2, y: view!.bounds.height * 0.3)
-        
-        yeahButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: yeahButtonOrigin, labelText: "Yeah")
-        nahButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: nahButtonOrigin, labelText: "Nah")
-        
-        yeahButton!.name = "yeahButton"
-        nahButton!.name = "nahButton"
-        
-        yeahButton!.zPosition = 7
-        nahButton!.zPosition = 7
-        sureLabel!.zPosition = 7
-        
-        self.addChild(yeahButton!)
-        self.addChild(nahButton!)
-        self.addChild(sureLabel!)
-        
-    }
-    
-    func bringUpSettings() {
-        
-        settingsAreUp = true
-        
-        let menuSize = CGSize(width: view!.bounds.width * 0.67, height: view!.bounds.height * 0.67)
-        settingsMenu = SKShapeNode.init(rectOf: menuSize, cornerRadius: 0.15)
-        bringUpMenu(menu: settingsMenu!, zPos: 3)
-        
-        let buttonTexts = ["Main Menu", "Just Play Sound", "Level Info", "Play"]
-
-        menuButtons = []
-        
-        for i in 0...3 {
-            
-            let yMul = 0.7 - (CGFloat(i) * 0.15)
-            let thisOrigin = CGPoint(x: settingsMenu!.position.x / 2, y: view!.bounds.height * yMul)
-            let buttonSize = CGSize(width: menuSize.width - 50  , height: view!.bounds.height * 0.08)
-//            let thisButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: thisOrigin)
-            let thisButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: thisOrigin, labelText: buttonTexts[i])
-//            thisButton.label?.position = thisButton.position
-            thisButton.name = "Button " + String(i)
-            thisButton.zPosition = 4
-            menuButtons!.append(thisButton)
-            worldNode!.addChild(thisButton)
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let touch = touches.first
         let location = touch!.location(in: self)
@@ -593,10 +516,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             touching = true
         }
         
-        else if gearIcon!.frame.contains(location) {
+        else if settingsNode!.frame.contains(location) {
             
             worldNode!.isPaused = true
-            bringUpSettings()
+            settingsNode!.bringUpSettings(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2))
+//            settingsNode?.bringUpSettings(targetNode: self, position:
+//                CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2))
         }
         
         else if settingsAreUp {
@@ -634,17 +559,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch touchedNode!.name! {
                 
             case "Button 0":
-                bringUpAreYouSureMenu()
+                settingsNode!.bringUpAreYouSureMenu(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2))
             case "Button 1":
                 break
             case "Button 2":
                 break
             case "Button 3":
                 
-                settingsMenu?.removeFromParent()
-                for button in menuButtons! {
-                    button.removeFromParent()
-                }
+                settingsNode!.ridSettingsMenu()
                 settingsAreUp = false
                 worldNode!.isPaused = false
                 
@@ -657,12 +579,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.scene?.view?.presentScene(mainMenu, transition: transition)
             
             case "nahButton":
-                
-                nahButton?.removeFromParent()
-                yeahButton?.removeFromParent()
-                sureLabel?.removeFromParent()
-                areYouSureMenu?.removeFromParent()
-                
+                settingsNode?.ridSureMenu()
             default:
                 break
                 
