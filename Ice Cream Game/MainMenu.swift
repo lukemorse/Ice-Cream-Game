@@ -78,6 +78,7 @@ class MainMenu: SKScene {
 //        makeCharDance(char: iceCreamChar!, startingPoint: CGPoint(x: 0, y: 0))
         
         mouthChar = Mouth(imageNamed: "mouth1")
+        mouthChar!.alpha = 1.0
         addChild(mouthChar!)
         mouthChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
         mouthPosition = mouthChar!.position

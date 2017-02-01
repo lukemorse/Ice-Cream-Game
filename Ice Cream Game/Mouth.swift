@@ -37,6 +37,7 @@ class Mouth:SKSpriteNode {
         self.name = "mouth"
         self.isUserInteractionEnabled = false
         self.setScale(0.11)
+        self.alpha = 0.0
     }
     
 }

@@ -41,8 +41,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    let tapRecognizer = UITapGestureRecognizer()
     
     var backgroundMusic: SoundNode!
-    var teethChatterSound: SoundNode!
-    var coinSound: SoundNode!
+    var teethChatterSound: SoundNode?
+    var coinSound: SoundNode?
     var teethSound: SoundNode!
     var badIceCreamSound: SoundNode!
     var brushSound: SoundNode!
@@ -63,6 +63,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var squareRate = 1.0
     var moveBadIceCreamRate = 1.0
+    
+    var killMouth: SKAction?
+    var rect: CGRect?
     
     override func didMove(to view: SKView) {
         
@@ -132,7 +135,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             break
         }
         
-//        self.view!.addGestureRecognizer(tapRecognizer)
+        killMouth = SKAction.run {
+            self.popMouth((self.mouth?.position)!)
+        }
     }
     
     func createArc() {
@@ -172,8 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mouth!.position = CGPoint(x: self.view!.bounds.width / 2, y: 50)
         
         worldNode!.addChild(mouth!)
-        
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
         let readyMouth = SKAction.run {self.mouthIsReady = true}
         let seq = SKAction.sequence([fadeIn, readyMouth, mouthMovingAnimation!])
         
@@ -350,6 +354,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let thisSound = SoundNode(url: soundURL)
             thisSound.volume = volume
             worldNode!.addChild(thisSound)
+            thisSound.autoplayLooped = false
+            let play = SKAction.play()
+            thisSound.run(play)
             removeSound(thisSound, waitTime: time)
         }
     }
@@ -367,44 +374,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         mouthIsReady = false
         
-        if let soundURL = Bundle.main.url(forResource: "teethclatter", withExtension: "mp3") {
-            teethChatterSound = SoundNode(url: soundURL)
-            teethChatterSound.volume = 0.7
-            worldNode!.addChild(teethChatterSound)
-            removeSound(teethChatterSound, waitTime: 2.0)
+        if let teethURL = Bundle.main.url(forResource: "teethclatter", withExtension: "mp3") {
+            teethChatterSound = SoundNode(url: teethURL)
+            worldNode!.addChild(teethChatterSound!)
         }
         
         let velocity = mouth!.physicsBody?.velocity
         mouthSpeed = Int(sqrt((velocity!.dx * velocity!.dx) + (velocity!.dy * velocity!.dy)) / 10)
         
-        switch score {
-            
-        case 10...19:
-            if mouthSpeed > 30 {
-                iceCreamGood = false
-            } else { iceCreamGood = true }
-        case 30...39:
-            if mouthSpeed < 70 {
-                iceCreamGood = false
-            } else { iceCreamGood = true }
-        default: break
-        }
-        
-        while childNode(withName: "Mouth") != nil {
-            print("mouth is here")
-            if (!intersects(mouth!)) {
-                removeSound(teethChatterSound, waitTime: 0.0)
-            }
-        }
-        
         let wait = SKAction.wait(forDuration: 3.5)
-        let killMouth = SKAction.run {
-            self.popMouth(self.mouth!.position)
-        }
-        let fadeBackIn = SKAction.run { self.fadeInMouth()}
+        let fadeBackIn = SKAction.run { if self.mouth == nil {
+            print("mouth is nil so i'm fading one in")
+            self.fadeInMouth()}}
         
-        let seq = SKAction.sequence([wait,killMouth,fadeBackIn])
-        self.run(seq)
+        let seq = SKAction.sequence([wait,killMouth!,fadeBackIn])
+        mouth!.run(seq)
         
         
     }
@@ -430,16 +414,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func popMouth(_ position: CGPoint) {
         
-        if self.childNode(withName: "mouth") != nil {
-            if let pop = SKEmitterNode(fileNamed: "Explosion.sks") {
-                worldNode!.addChild(pop)
-                pop.position = position
+        if worldNode?.childNode(withName: "mouth") != nil {
+            toothExplosionFunc(location: position)
+            if teethChatterSound != nil {
+                removeSound(teethChatterSound!, waitTime: 0.2)
             }
-            self.mouth!.removeAllActions()
-            self.mouth!.removeFromParent()
+            mouth!.removeAllActions()
+            mouth!.removeFromParent()
             fancy = false
+            fadeInMouth()
         }
-        
     }
     
     func playSoundFromArray(array: [String]) {
@@ -474,7 +458,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         makeExplosion(location: contactPoint)
 
-        removeSound(teethChatterSound, waitTime: 0.0)
+        if teethChatterSound != nil {
+            removeSound(teethChatterSound!, waitTime: 0.0)
+        }
+        
         playSound(resourceString: "coin", volume: 0.8, time: 1.0)
     }
     
@@ -502,7 +489,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             mouth?.removeAllActions()
             mouth?.removeFromParent()
-            fancy = false
+            fadeInMouth()
+//            fancy = false
             
             worldNode!.addChild(explosion1)
             worldNode!.addChild(explosion2)
@@ -546,9 +534,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let yeahButtonOrigin = CGPoint(x: areYouSureMenu!.position.x / 2, y: view!.bounds.height * 0.5)
         let nahButtonOrigin = CGPoint(x: areYouSureMenu!.position.x / 2, y: view!.bounds.height * 0.3)
-        
-        print(yeahButtonOrigin)
-        print(nahButtonOrigin)
         
         yeahButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: yeahButtonOrigin, labelText: "Yeah")
         nahButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: nahButtonOrigin, labelText: "Nah")
@@ -642,8 +627,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             touchedNode = touchedNode?.parent
         }
         
-        print(touchedNode)
-        
         if touchedNode! is MenuButton {
             
             touchedNode!.position = CGPoint(x: touchedNode!.position.x, y: touchedNode!.position.y + 2)
@@ -714,15 +697,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             toothExplosion.particleColor = SKColor.white
             toothExplosion.particleColorSequence = nil;
             toothExplosion.position = location
+            toothExplosion.zPosition = 2
             worldNode!.addChild(toothExplosion)
             
-            toothExplosion.physicsBody?.velocity = (mouth!.physicsBody?.velocity)!
+            if location.y == 0 {
+                toothExplosion.emissionAngle = CGFloat(M_PI / 2)
+            } else if location.y == view!.bounds.height {
+                toothExplosion.emissionAngle = CGFloat(M_PI * 3 / 2)
+            } else if location.x == 0 {
+                toothExplosion.emissionAngle = 0.0
+            } else if location.x == view!.bounds.width {
+                toothExplosion.emissionAngle = CGFloat(M_PI)
+            }
             
             playSound(resourceString: "teeth2", volume: 0.8, time: 2.0)
         }
-        
-        mouth!.removeFromParent()
-
     }
     
     func changeScore(good: Bool) {
@@ -789,6 +778,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let contactPoint = contact.contactPoint
             
+            // Change value of iceCreamGood for different levels
+            switch score {
+                
+            case 10...19:
+                if mouthSpeed > 30 {
+                    iceCreamGood = false
+                } else { iceCreamGood = true }
+            case 30...39:
+                if mouthSpeed < 65 {
+                    iceCreamGood = false
+                } else { iceCreamGood = true }
+            default: break
+            }
+            
             if !iceCreamGood {
                 
                 if !mouthHitIceCreamRegistered {
@@ -797,9 +800,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     makeSpeedLabel(position: contactPoint)
                     
-                    removeSound(teethChatterSound, waitTime: 0.0)
-                
-                    toothExplosionFunc(location: contactPoint)
+                    popMouth(contactPoint)
                     
                     if score > 50 {
                         
@@ -860,9 +861,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (contact.bodyA.categoryBitMask == BodyType.spike.rawValue) &&
             (contact.bodyB.categoryBitMask == BodyType.mouth.rawValue) {
             
-            let contactPoint = contact.contactPoint
-            
-            toothExplosionFunc(location: contactPoint)
+            popMouth(contact.contactPoint)
             
             fancy = false
         }
@@ -882,8 +881,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // IF TOUCHING BOTH SQUARES AND MOUTH IS ABOVE BOTTOM POINT OF SQUARE, KILL MOUTH
             if (bodies?.count)! > 1 && mouth!.position.y > redSquare!.position.y - (redSquare!.frame.height / 2) {
                 
-//                popMouth((contact.bodyA.node?.position)!)
-                toothExplosionFunc(location: contact.contactPoint)
+                popMouth(contact.contactPoint)
+//                toothExplosionFunc(location: contact.contactPoint)
             }
         }
             
@@ -917,7 +916,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         playSound(resourceString: "BrushSound", volume: 0.8, time: 1.5)
         
-        removeSound(teethChatterSound, waitTime: 0.0)
+        if teethChatterSound != nil {
+            removeSound(teethChatterSound!, waitTime: 0.0)
+        }
+        
+        mouth?.removeAllActions()
+        mouth?.removeFromParent()
+        fadeInMouth()
         
         moveBadIceCreamRate += 1.0
         iceCream!.removeAllActions()
@@ -963,8 +968,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createToothbrush(brush: Toothbrush) {
         
-        worldNode!.addChild(brush)
-        
         let yOffset = UInt32(size.height / 2)
         
         let initRandomY = arc4random_uniform(UInt32(size.height / 2)) + yOffset
@@ -977,6 +980,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //        toothbrush!.physicsBody!.velocity = velocity
         
         brush.position = leftPosition
+        
+        worldNode!.addChild(brush)
         
         let moveBrush = SKAction.move(to: rightPosition, duration: 1)
         let rotate = SKAction.rotate(byAngle: CGFloat(M_PI * 2), duration: 2.0)
@@ -1129,7 +1134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let waitBetweenBrushes = SKAction.wait(forDuration: 0.4)
         let sequence = SKAction.sequence([createBrush1,waitBetweenBrushes,createBrush2,waitBetweenBrushes,createBrush3,waitBetweenBrushes])
         
-        run(SKAction.repeatForever(sequence))
+        worldNode!.run(SKAction.repeatForever(sequence))
     }
     
     func endGame() {
@@ -1190,6 +1195,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (bg2!.position.x < -bg2!.size.width) {
             bg2!.position = CGPoint(x: bg1!.position.x + bg1!.size.width, y: bg2!.position.y);
         }
+        
+        if (!self.intersects(mouth!)) {
+            let clampPos = mouth!.position.clamped(rect: view!.bounds, x: mouth!.position.x, y: mouth!.position.y)
+            popMouth(clampPos)
+        }
+        
         
         
         if touching {

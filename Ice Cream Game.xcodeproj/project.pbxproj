@@ -248,7 +248,6 @@
 				AF75E9E31D96EF2E00D7C045 /* RedSquare.swift */,
 				AF75E9E41D96EF2E00D7C045 /* Mouth.swift */,
 				AF75E9E51D96EF2E00D7C045 /* IceCream.swift */,
-				AF742E0B1DF85F85009BF9D1 /* Extentions.swift */,
 				AF742E0D1DF85FBC009BF9D1 /* SoundNode.swift */,
 				AFC5ADC21E398BE5006B79DF /* MenuButton.swift */,
 			);
@@ -280,6 +279,7 @@
 		AFCFB1BE1DC6647300220EB7 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				AF742E0B1DF85F85009BF9D1 /* Extentions.swift */,
 				AF75E9E11D96EF2E00D7C045 /* Constants.swift */,
 				AFCFB1B91DC6644500220EB7 /* SKMultilineLabel.swift */,
 			);

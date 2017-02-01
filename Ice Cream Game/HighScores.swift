@@ -15,7 +15,6 @@ class HighScores: SKScene, UITextFieldDelegate {
     var playButton: SKSpriteNode?
     var okCoolLabel: SKLabelNode?
     
-    
     override func didMove(to view: SKView) {
         
         self.anchorPoint = CGPoint(x: 0.0, y: 0.0)

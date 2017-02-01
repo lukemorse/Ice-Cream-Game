@@ -39,4 +39,34 @@ extension SKAction
         
         return action
     }
-}  
+}
+
+
+extension CGFloat {
+    
+    public func clamped(_ v1: CGFloat, _ v2: CGFloat) -> CGFloat {
+        let min = v1 < v2 ? v1 : v2
+        let max = v1 > v2 ? v1 : v2
+        return self < min ? min : (self > max ? max : self)
+    }
+    
+    public mutating func clamp(_ v1: CGFloat, _ v2: CGFloat) -> CGFloat {
+        self = clamped(v1, v2)
+        return self
+    }
+        
+}
+
+extension CGPoint {
+    
+    public func clamped(rect: CGRect, x: CGFloat, y: CGFloat) -> CGPoint {
+        var newX = x
+        var newY = y
+        if x > rect.maxX {newX = rect.maxX}
+        if x < rect.minX {newX = rect.minX}
+        if y > rect.maxY {newY = rect.maxY}
+        if y < rect.minY {newY = rect.minY}
+        return CGPoint(x: newX, y: newY)
+//        return self
+    }
+}
