@@ -58,6 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var killMouth: SKAction?
     var rect: CGRect?
+    var MID_POINT: CGPoint?
     
     override func didMove(to view: SKView) {
         
@@ -65,6 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(worldNode!)
         self.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         
+        MID_POINT = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
 //        bg1 = SKSpriteNode.init(imageNamed: "bg1.jpg")
         bg1 = SKSpriteNode.init(imageNamed: "shine_on_and_on.jpg")
         bg1!.anchorPoint = CGPoint(x: 0.0, y: 0.0)
@@ -162,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func fadeInMouth() {
         
         if mouthCount == 1 {lastMouthFunc()}
-        if mouthCount == 0 {endGame()}
+        if mouthCount == 0 {endGame(); return}
         
         mouthIsReady = false
         
@@ -188,19 +190,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         iceCream!.position = initPos
         worldNode!.addChild(iceCream!)
         
-        moveIceCream(initPos)
+        moveIceCream(sprite: iceCream!, initPos: initPos)
     }
     
     func createBadIceCream() {
         
         iceCream = IceCream(imageNamed: "ice cream")
         
-        iceCream!.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
+        iceCream!.position = MID_POINT!
         
         worldNode!.addChild(iceCream!)
     }
     
-    func moveIceCream(_ initPos:CGPoint) {
+    func moveIceCream(sprite: IceCream, initPos:CGPoint) {
         
         var randomPoints = generateFourRandomPoints()
         randomPoints.insert(initPos, at: 0)
@@ -219,7 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let seq = SKAction.sequence([move2, move3, move4, move5])
         let repeatAction = SKAction.repeatForever(seq)
-        iceCream!.run(SKAction.sequence([move1,repeatAction]))
+        sprite.run(SKAction.sequence([move1,repeatAction]))
     }
     
     func moveSpike(_ spike: Spike, mul: CGFloat) {
@@ -287,25 +289,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func generateFourRandomPoints() -> [CGPoint] {
         
         //        keep ice cream in the top half by selecting a random point in the bottom half and then adding half of the screens height to it.
-        let widthMax = self.view!.bounds.width - 10
-        let heightMax = self.view!.bounds.height / 2
-//        let hOffset = CGFloat(heightMax - iceCream!.size.height / 2)
-//        let wOffset = CGFloat(heightMax - iceCream!.size.width / 2)
+        let widthMax = UInt32(self.view!.bounds.width - 10)
+        let heightMax = CGFloat(self.view!.bounds.height / 2)
         
-        let RandW1 = CGFloat(Int(arc4random_uniform(UInt32(15)))) + CGFloat(5)
-        let RandH1 = CGFloat(Int(arc4random_uniform(UInt32(heightMax)))) + CGFloat(heightMax)
+        let RandW1 = CGFloat(arc4random_uniform(15)) + 5
+        let RandH1 = CGFloat(arc4random_uniform(UInt32(heightMax))) + heightMax
         let point1 = CGPoint(x: RandW1, y: RandH1)
         
-        let RandW2 = CGFloat(Int(UInt32(widthMax) - arc4random_uniform(UInt32(15)))) + CGFloat(5)
-        let RandH2 = CGFloat(Int(arc4random_uniform(UInt32(heightMax)))) + CGFloat(heightMax)
+        let RandW2 = CGFloat(widthMax - arc4random_uniform(15)) + 5
+        let RandH2 = CGFloat(arc4random_uniform(UInt32(heightMax))) + heightMax
         let point2 = CGPoint(x: RandW2, y: RandH2)
         
-        let RandW3 = CGFloat(Int(arc4random_uniform(UInt32(15)))) + CGFloat(5)
-        let RandH3 = CGFloat(Int(arc4random_uniform(UInt32(heightMax)))) + CGFloat(heightMax)
+        let RandW3 = CGFloat(arc4random_uniform(15)) + 5
+        let RandH3 = CGFloat(arc4random_uniform(UInt32(heightMax))) + heightMax
         let point3 = CGPoint(x: RandW3, y: RandH3)
         
-        let RandW4 = CGFloat(Int(UInt32(widthMax) - arc4random_uniform(UInt32(15)))) + CGFloat(5)
-        let RandH4 = CGFloat(Int(arc4random_uniform(UInt32(heightMax)))) + CGFloat(heightMax)
+        let RandW4 = CGFloat(UInt32(widthMax) - arc4random_uniform(15)) + 5
+        let RandH4 = CGFloat(arc4random_uniform(UInt32(heightMax))) + heightMax
         let point4 = CGPoint(x: RandW4, y: RandH4)
         
         return [point1, point2, point3, point4]
@@ -392,7 +392,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         label.zPosition = 1.0
         label.fontColor = SKColor.black
         label.fontSize = 25
-        label.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
+        label.position = MID_POINT!
         label.zPosition = 1
         label.fontName = "AmericanTypewriter-Bold"
         worldNode!.addChild(label)
@@ -449,7 +449,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
 
-        makeExplosion(location: contactPoint)
+        makeExplosion(location: contactPoint, endGame: false)
 
         if teethChatterSound != nil {
             removeSound(teethChatterSound!, waitTime: 0.0)
@@ -458,7 +458,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playSound(resourceString: "coin", volume: 0.8, time: 1.0)
     }
     
-    func makeExplosion(location: CGPoint) {
+    func makeExplosion(location: CGPoint, endGame: Bool) {
         
         if let explosion1 = SKEmitterNode(fileNamed: "Explosion.sks"),
             let explosion2 = SKEmitterNode(fileNamed: "Explosion.sks"),
@@ -477,13 +477,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             explosion2.position = location
             explosion3.position = location
             
-            iceCream?.removeAllActions()
-            iceCream?.removeFromParent()
+            explosion1.zPosition = 3
+            explosion2.zPosition = 3
+            explosion3.zPosition = 3
             
-            mouth?.removeAllActions()
-            mouth?.removeFromParent()
-            fadeInMouth()
-//            fancy = false
+            if !endGame {
+                iceCream?.removeAllActions()
+                iceCream?.removeFromParent()
+                
+                mouth?.removeAllActions()
+                mouth?.removeFromParent()
+                fadeInMouth()
+            }
             
             worldNode!.addChild(explosion1)
             worldNode!.addChild(explosion2)
@@ -517,11 +522,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         else if settingsNode!.frame.contains(location) {
-            
+            settingsAreUp = true
             worldNode!.isPaused = true
-            settingsNode!.bringUpSettings(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2))
-//            settingsNode?.bringUpSettings(targetNode: self, position:
-//                CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2))
+            settingsNode!.bringUpSettings(position: MID_POINT!)
         }
         
         else if settingsAreUp {
@@ -559,9 +562,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch touchedNode!.name! {
                 
             case "Button 0":
-                settingsNode!.bringUpAreYouSureMenu(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2))
+                settingsNode!.bringUpAreYouSureMenu(position: MID_POINT!, zPos: 6, clrScrsFlag: false)
             case "Button 1":
-                break
+                settingsNode!.bringUpHighScores(position: MID_POINT!)
             case "Button 2":
                 break
             case "Button 3":
@@ -580,6 +583,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             case "nahButton":
                 settingsNode?.ridSureMenu()
+            case "okCoolButton":
+                settingsNode?.ridHighScoresMenu()
+            case "clearButton":
+                settingsNode!.bringUpAreYouSureMenu(position: MID_POINT!, zPos: 9, clrScrsFlag: true)
+            case "yeahButton_CLEAR":
+                settingsNode?.clearHighScores()
+                settingsNode?.ridSureMenu()
+                settingsNode?.ridHighScoresMenu()
+                settingsNode?.bringUpHighScores(position: MID_POINT!)
             default:
                 break
                 
@@ -614,7 +626,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             toothExplosion.particleColor = SKColor.white
             toothExplosion.particleColorSequence = nil;
             toothExplosion.position = location
-            toothExplosion.zPosition = 2
+            toothExplosion.zPosition = 3
             worldNode!.addChild(toothExplosion)
             
             if location.y == 0 {
@@ -1081,16 +1093,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func playerGotAHighScore() {
         
-        let congratsLabel = SKLabelNode(text: "CONGRATS! YOU GOT A HIGH SCORE!")
+        let congratsLabel = SKLabelNode(text: "HIGH SCORE!")
         congratsLabel.zPosition = 1.0
-        congratsLabel.fontColor = SKColor.black
-        congratsLabel.fontSize = 25
-        congratsLabel.position = CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2)
+        congratsLabel.fontColor = SKColor.orange
+        congratsLabel.fontSize = 30
+        congratsLabel.position = MID_POINT!
         congratsLabel.zPosition = 1
         congratsLabel.fontName = "AmericanTypewriter-Bold"
         worldNode!.addChild(congratsLabel)
         
+        let colorizeLbl = SKAction.colorize(with: UIColor.green, colorBlendFactor: 0.67, duration: 1.0)
+        let colorizeLbl2 = SKAction.colorize(with: UIColor.cyan, colorBlendFactor: 0.67, duration: 1.0)
+        let colorizeLbl3 = SKAction.colorize(with: UIColor.orange, colorBlendFactor: 0.67, duration: 1.0)
+        let lblColorSeq = SKAction.sequence([colorizeLbl,colorizeLbl2,colorizeLbl3])
+        let lblGrow = SKAction.scale(to: 2, duration: 0.3)
+        let lblShrink = SKAction.scale(to: 1, duration: 0.3)
+        let lblGrowSeq = SKAction.repeat(SKAction.sequence([lblGrow,lblShrink]), count: 5)
+        let lblGroup = SKAction.group([lblColorSeq,lblGrowSeq])
+        congratsLabel.run(SKAction.repeatForever(lblGroup))
         
+        mouthIsReady = false
+        mouth = Mouth(imageNamed: "mouth1")
+        mouth!.position = CGPoint(x: self.view!.bounds.width / 2, y: 50)
+        mouth!.alpha = 1.0
+        worldNode!.addChild(mouth!)
+        
+        let danceAct = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.5))
+        mouth!.run(danceAct)
+        iceCream!.run(danceAct)
+        
+        
+        var seqArr: [SKAction] = []
+        for _ in 0...40 {
+            let randWaitTime = Double(arc4random_uniform(UInt32(100))) * 0.01
+            print(randWaitTime)
+            let RandW = CGFloat(arc4random_uniform(UInt32(view!.bounds.width)))
+            let RandH = CGFloat(arc4random_uniform(UInt32(view!.bounds.height)))
+            let thisLoc = CGPoint(x: RandW, y: RandH)
+            let wait = SKAction.wait(forDuration: randWaitTime)
+            let block = SKAction.run {
+                self.makeExplosion(location: thisLoc, endGame: true)
+            }
+            seqArr.append(wait)
+            seqArr.append(block)
+        }
+
+        let seq = SKAction.sequence(seqArr)
+        run(seq)
     }
     
     
@@ -1117,8 +1166,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let clampPos = mouth!.position.clamped(rect: view!.bounds, x: mouth!.position.x, y: mouth!.position.y)
             popMouth(clampPos)
         }
-        
-        
         
         if touching {
             let dt:CGFloat = 1.0/60.0
