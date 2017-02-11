@@ -8,7 +8,7 @@
 
 import Foundation
 
-let fancySayings = [
+var fancySayings = [
     "Dude, so fancy!",
     "You're the fanciest!",
     "That was really fancy, not gonna lie.",
@@ -16,7 +16,9 @@ let fancySayings = [
     "Megafancy",
     "Whoa, that was a sick mouth toss!",
     "Yeah, fancy!",
-]
+].shuffled()
+
+var fancySayingsIndex = 0
 
 enum BodyType:UInt32 {
     case iceCream = 1
@@ -33,7 +35,7 @@ let levelMenuData = [
     "Level 1" : [
         
         "level" : "Level 1",
-        "description" : "Throw your mouth at the ice cream to eat it and collect points!",
+        "description" : "Use your thumb to grab the mouth and throw it at the ice cream to eat it!  The mouth will follow your thumbs position, but as soon as your mouth is off the picnic table, you are not in control of it anymore!",
         "picture" : "ice cream"
     ],
     
@@ -74,6 +76,7 @@ let levelMenuData = [
     
 ]
 
-var mouthCount: Int?
+//var mouthCount: Int?
+var mouthCount = 100
 var score = 0
 var displayedScore = 0

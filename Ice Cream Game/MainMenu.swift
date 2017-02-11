@@ -12,16 +12,16 @@ import SpriteKit
 class MainMenu: SKScene {
     
     var background: SKSpriteNode?
+    var logoNode: SKSpriteNode?
     var playLabel: SKLabelNode?
-    var playButton: SKSpriteNode?
+    var playButton: MenuButton?
     var highScoresLabel: SKLabelNode?
-    var highScoresButton: SKSpriteNode?
+    var highScoresButton: MenuButton?
     var iceCreamChar: IceCream?
     var mouthChar: Mouth?
     var mouthPosition: CGPoint?
     var backgroundMusic: SoundNode!
-    
-//    var dur: TimeInterval = 1.0
+    var settingsNode: SettingsNode?
     
     override func didMove(to view: SKView) {
         
@@ -39,6 +39,16 @@ class MainMenu: SKScene {
         background!.zPosition = 0
         addChild(background!)
         
+        let logoTexture = SKTexture(imageNamed: "IceCreamLogo")
+        logoNode = SKSpriteNode.init(texture: logoTexture)
+        logoNode?.zPosition = 2
+        logoNode?.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height * 0.8)
+        logoNode?.setScale(0.01)
+        addChild(logoNode!)
+        let scaleAct = SKAction.scale(to: 0.3, duration: 0.5)
+        logoNode?.run(scaleAct)
+        
+        
         self.playLabel = SKLabelNode(fontNamed: "Cochin")
         self.playLabel!.fontSize = 30
         self.playLabel!.fontColor = UIColor.blue
@@ -53,32 +63,38 @@ class MainMenu: SKScene {
         self.highScoresLabel!.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 4)
         self.highScoresLabel!.zPosition = 1
         
-        self.playButton = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 200, height: 44))
-        self.playButton!.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
+        settingsNode = SettingsNode(imageNamed: "gear", targetScene: self)
+        settingsNode!.alpha = 0
+        addChild(settingsNode!)
         
-        self.highScoresButton = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 200, height: 44))
-        self.highScoresButton!.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 4)
+        let buttonSize = CGSize(width: view.bounds.width * 0.4, height: view.bounds.height * 0.10)
+        let playButtonOrigin = CGPoint(x: view.bounds.width * 0.05, y: view.bounds.height * 0.15)
+        playButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: playButtonOrigin, labelText: "Play")
+        playButton!.name = "playButton"
+        playButton!.zPosition = 2
         
-        self.addChild(self.playLabel!)
+        let highScoresButtonOrigin = CGPoint(x: view.bounds.width * 0.55, y: view.bounds.height * 0.15)
+        highScoresButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: highScoresButtonOrigin, labelText: "High Scores")
+        highScoresButton!.name = "highScoresButton"
+        highScoresButton!.zPosition = 2
+
         self.addChild(self.playButton!)
-        self.addChild(self.highScoresLabel!)
+//        self.addChild(self.highScoresLabel!)
         self.addChild(self.highScoresButton!)
         
         backgroundChange()
-        
-        mouthCount = 2
     }
     
     func backgroundChange() {
         
         iceCreamChar = IceCream(imageNamed: "ice cream")
+        iceCreamChar!.zPosition = 4
         addChild(iceCreamChar!)
         iceCreamChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
-
-//        makeCharDance(char: iceCreamChar!, startingPoint: CGPoint(x: 0, y: 0))
         
         mouthChar = Mouth(imageNamed: "mouth1")
         mouthChar!.alpha = 1.0
+        mouthChar!.zPosition = 4
         addChild(mouthChar!)
         mouthChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
         mouthPosition = mouthChar!.position
@@ -86,7 +102,6 @@ class MainMenu: SKScene {
         mouthChar!.physicsBody?.collisionBitMask = BodyType.hole.rawValue
         iceCreamChar!.physicsBody?.collisionBitMask = BodyType.hole.rawValue
 
-//        makeCharDance(char: mouthChar!, startingPoint: CGPoint(x: 100, y: 100))
         let pointList = makePointsAndDurs(originalPoint: mouthChar!.position)
         var iceCreamMovements: [SKAction] = []
         var mouthMovements: [SKAction] = []
@@ -137,38 +152,53 @@ class MainMenu: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let touch = touches.first?.location(in: self)
-        
-        if self.playButton!.frame.contains(touch!) {
-            
-            self.playButton!.color = SKColor.red
-        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let touch = touches.first?.location(in: self)
+        let touch = touches.first
+        let location = touch!.location(in: self)
+        var touchedNode = self.nodes(at: location).first
         
-        if self.playButton!.frame.contains(touch!) {
-            
-            self.playButton!.color = SKColor.green
-            
-            let transition = SKTransition.crossFade(withDuration: 1)
-            let gameScene = GameScene(size: (scene!.size))
-            gameScene.scaleMode = .aspectFill
-            
-            self.scene?.view?.presentScene(gameScene, transition: transition)
+        if touchedNode is SKLabelNode {
+            touchedNode = touchedNode?.parent
         }
+        
+        if touchedNode! is MenuButton {
             
-        else if self.highScoresButton!.frame.contains(touch!) {
+            touchedNode!.position = CGPoint(x: touchedNode!.position.x, y: touchedNode!.position.y + 2)
             
-            self.highScoresButton!.color = SKColor.green
-            
-            let transition = SKTransition.crossFade(withDuration: 1)
-            let highScoresScene = HighScores(size: (scene!.size))
-            highScoresScene.scaleMode = .aspectFill
-            
-            self.scene?.view?.presentScene(highScoresScene, transition: transition)
+            switch touchedNode!.name! {
+                
+            case "playButton":
+                mouthCount = 1
+                let transition = SKTransition.crossFade(withDuration: 1)
+                let firstLevel = NewLevelMenu(size: scene!.size)
+                firstLevel.scaleMode = .aspectFill
+                firstLevel.setNewLevel(newLevel: "Level 1")
+                self.scene?.view?.presentScene(firstLevel, transition: transition)
+                
+            case "highScoresButton":
+                settingsNode?.bringUpHighScores(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2), addScoreFlag: false)
+                
+            case "okCoolButton":
+                settingsNode?.ridHighScoresMenu()
+                
+            case "clearButton":
+                settingsNode!.bringUpAreYouSureMenu(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2), zPos: 9, clearScoresFlag: true)
+                
+            case "nahButton":
+                settingsNode?.ridSureMenu()
+                
+            case "yeahButton_CLEAR":
+                settingsNode?.clearHighScores()
+                settingsNode?.ridSureMenu()
+                settingsNode?.ridHighScoresMenu()
+                settingsNode?.bringUpHighScores(position: CGPoint(x: view!.bounds.width / 2, y: view!.bounds.height / 2), addScoreFlag: false)
+            default:
+                break
+                
+            }
         }
     }
 }

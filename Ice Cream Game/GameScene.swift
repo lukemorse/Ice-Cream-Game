@@ -16,7 +16,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode?
     var fancy = false
     var settingsAreUp = false
-    var mouthSpeed: Int = 0
+    var gameOver = false
+    var mouthSpeed = 0
+    var levelIndex = "Level 1"
     
     var touchPoint: CGPoint = CGPoint()
     var touching: Bool = false
@@ -115,6 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let musicURL = Bundle.main.url(forResource: "bgmusicLevel1", withExtension: "mp3") {
                 backgroundMusic = SoundNode(url: musicURL)
                 worldNode!.addChild(backgroundMusic)
+                levelIndex = "Level 1"
             }
         case 10:
             level2Func()
@@ -363,7 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func shootMouth() {
         
-        mouthCount! -= 1
+        mouthCount -= 1
         
         mouthIsReady = false
         
@@ -407,15 +410,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func popMouth(_ position: CGPoint) {
         
-        if worldNode?.childNode(withName: "mouth") != nil {
-            toothExplosionFunc(location: position)
-            if teethChatterSound != nil {
-                removeSound(teethChatterSound!, waitTime: 0.2)
+        if !gameOver {
+            
+            changeScore(good: false)
+            
+            if worldNode?.childNode(withName: "mouth") != nil {
+                toothExplosionFunc(location: position)
+                if teethChatterSound != nil {
+                    removeSound(teethChatterSound!, waitTime: 0.2)
+                }
+                mouth!.removeAllActions()
+                mouth!.removeFromParent()
+                fancy = false
+                fadeInMouth()
             }
-            mouth!.removeAllActions()
-            mouth!.removeFromParent()
-            fancy = false
-            fadeInMouth()
         }
     }
     
@@ -432,8 +440,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if fancy {
             
-            let fancyIdx = Int(arc4random_uniform(UInt32(fancySayings.count - 1)))
-            let fancyLabel = SKLabelNode.init(text: fancySayings[fancyIdx])
+            let fancyLabel = SKLabelNode.init(text: fancySayings[fancySayingsIndex])
             fancyLabel.zPosition = 2
             fancyLabel.color = SKColor.red
             fancyLabel.fontSize = 20
@@ -446,6 +453,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let ridLabel = SKAction.run({fancyLabel.removeFromParent()})
             let seq = SKAction.sequence([wait,fadeOut,ridLabel])
             fancyLabel.run(seq)
+            fancySayingsIndex += 1 % (fancySayings.count - 1)
             
         }
 
@@ -524,6 +532,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if settingsNode!.frame.contains(location) {
             settingsAreUp = true
             worldNode!.isPaused = true
+            physicsWorld.speed = 0
             settingsNode!.bringUpSettings(position: MID_POINT!)
         }
         
@@ -562,36 +571,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch touchedNode!.name! {
                 
             case "Button 0":
-                settingsNode!.bringUpAreYouSureMenu(position: MID_POINT!, zPos: 6, clrScrsFlag: false)
+                settingsNode!.bringUpAreYouSureMenu(position: MID_POINT!, zPos: 6, clearScoresFlag: false)
             case "Button 1":
-                settingsNode!.bringUpHighScores(position: MID_POINT!)
+                settingsNode!.bringUpHighScores(position: MID_POINT!, addScoreFlag: false)
             case "Button 2":
-                break
+                settingsNode!.bringUpLevelInfoMenu(position: MID_POINT!, levelIndex: levelIndex)
             case "Button 3":
-                
                 settingsNode!.ridSettingsMenu()
                 settingsAreUp = false
                 worldNode!.isPaused = false
+                physicsWorld.speed = 1.0
                 
             case "yeahButton":
+                if !gameOver {
+                    endGame()
+                }
                 
-                let transition = SKTransition.crossFade(withDuration: 1)
-                let mainMenu = MainMenu(size: (scene!.size))
-                mainMenu.scaleMode = .aspectFill
-                
-                self.scene?.view?.presentScene(mainMenu, transition: transition)
+                goToMainMenu()
             
             case "nahButton":
                 settingsNode?.ridSureMenu()
             case "okCoolButton":
                 settingsNode?.ridHighScoresMenu()
+            case "okCoolButton_LEVEL_INFO":
+                settingsNode?.ridLevelInfoMenu()
             case "clearButton":
-                settingsNode!.bringUpAreYouSureMenu(position: MID_POINT!, zPos: 9, clrScrsFlag: true)
+                settingsNode!.bringUpAreYouSureMenu(position: MID_POINT!, zPos: 9, clearScoresFlag: true)
             case "yeahButton_CLEAR":
                 settingsNode?.clearHighScores()
                 settingsNode?.ridSureMenu()
                 settingsNode?.ridHighScoresMenu()
-                settingsNode?.bringUpHighScores(position: MID_POINT!)
+                settingsNode?.bringUpHighScores(position: MID_POINT!, addScoreFlag: false)
+            case "BackToMainMenu":
+                print("going back to main")
+                settingsNode?.ridHighScoresMenu()
             default:
                 break
                 
@@ -601,6 +614,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if touching && mouthIsReady {shootMouth()}
         
         touching = false
+    }
+    
+    func goToMainMenu() {
+        
+        let transition = SKTransition.crossFade(withDuration: 1)
+        let mainMenu = MainMenu(size: (scene!.size))
+        mainMenu.scaleMode = .aspectFill
+        
+        self.scene?.view?.presentScene(mainMenu, transition: transition)
+        
     }
     
     func convertToRange(_ vector:CGVector) -> CGVector {
@@ -644,7 +667,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func changeScore(good: Bool) {
-        
         var value = arc4random_uniform(500)
         if fancy {
             value += 500
@@ -652,10 +674,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if good {
             displayedScore += Int(value)
+            animateScore(good: true)
+            
         } else {
+            value = value / 8
             displayedScore -= Int(value)
+            animateScore(good: false)
 }
         scoreLabel!.text = "SCORE: \(displayedScore)"
+    }
+    
+    func animateScore(good: Bool) {
+        
+        var changeScoreSize = SKAction()
+        var changeScoreColor = SKAction()
+        if good {
+            changeScoreSize = SKAction.scale(to: 1.2, duration: 0.18)
+            changeScoreColor = SKAction.colorize(with: UIColor.green, colorBlendFactor: 1.0, duration: 0.3)
+        } else {
+            changeScoreSize = SKAction.scale(to: 0.8, duration: 0.18)
+            changeScoreColor = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1.0, duration: 0.3)
+        }
+        let changeScoreSizeBack = SKAction.scale(to: 1.0, duration: 0.3)
+        let changeScoreColorBack = SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.3)
+        let swellScore = SKAction.sequence([changeScoreSize,changeScoreSizeBack])
+        let colorizeScore = SKAction.sequence([changeScoreColor,changeScoreColorBack])
+        let group = SKAction.group([swellScore,colorizeScore])
+        scoreLabel!.run(group)
     }
     
     func makeSpeedLabel(position: CGPoint) {
@@ -937,6 +982,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         scoreLabel = SKLabelNode.init(text: "SCORE: \(displayedScore)")
         scoreLabel!.color = SKColor.white
+        scoreLabel!.fontName = "Chalkduster"
         scoreLabel!.horizontalAlignmentMode = .left
         scoreLabel!.position = CGPoint(x: 0, y: size.height - 20)
         scoreLabel!.fontSize = 20
@@ -968,6 +1014,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func level2Func() {
         
+        levelIndex = "Level 2"
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel2", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
             worldNode!.addChild(backgroundMusic)
@@ -979,6 +1026,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func level3Func() {
         
+        levelIndex = "Level 3"
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel3", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
             worldNode!.addChild(backgroundMusic)
@@ -998,6 +1046,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func level4Func() {
         
+        levelIndex = "Level 4"
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel4", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
             worldNode!.addChild(backgroundMusic)
@@ -1013,6 +1062,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func level5Func() {
         
+        levelIndex = "Level 5"
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel5", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
             worldNode!.addChild(backgroundMusic)
@@ -1037,6 +1087,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func level6Func() {
         
+        levelIndex = "Level 6"
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel6", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
             worldNode!.addChild(backgroundMusic)
@@ -1068,32 +1119,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func endGame() {
         
+        gameOver = true
+        
         if let prevHighScores = UserDefaults.standard.array(forKey: "highScores") as? [Int] {
             
+            print("prev high scores")
+        
             if displayedScore >= prevHighScores.last! {
-                playerGotAHighScore()
+                gameEndAnimation(highScoreAchieved: true)
+                
             } else {
-                let fadeOut = SKAction._changeVolumeTo(endVolume: 0.0, duration: 2.0)
-                let waitForFade = SKAction.wait(forDuration: 2.0)
-                let seq = SKAction.sequence([fadeOut,waitForFade])
-                backgroundMusic.run(seq)
-                
-                let transition = SKTransition.crossFade(withDuration: 2.0)
-                let highScoresScreen = HighScores(fileNamed: "HighScores")
-                
-                let block = {self.scene!.view!.presentScene(highScoresScreen!, transition: transition)}
-                
-                let wait = SKAction.wait(forDuration: 1.5)
-                run(SKAction.sequence([wait, SKAction.run(block)]))
-                
+                gameEndAnimation(highScoreAchieved: false)
             }
+        } else {
+            gameEndAnimation(highScoreAchieved: true)
         }
+        
+        
     }
     
 
-    func playerGotAHighScore() {
+    func gameEndAnimation(highScoreAchieved: Bool) {
         
-        let congratsLabel = SKLabelNode(text: "HIGH SCORE!")
+        let congratsLabel = SKLabelNode(text: "GAME OVER")
         congratsLabel.zPosition = 1.0
         congratsLabel.fontColor = SKColor.orange
         congratsLabel.fontSize = 30
@@ -1112,6 +1160,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let lblGroup = SKAction.group([lblColorSeq,lblGrowSeq])
         congratsLabel.run(SKAction.repeatForever(lblGroup))
         
+        if highScoreAchieved {
+            let wait = SKAction.wait(forDuration: 1.5)
+            let rotateLabel = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.2)
+            let block = SKAction.run {
+                congratsLabel.text = "HIGH SCORE!"
+            }
+            let seq = SKAction.sequence([wait,rotateLabel,block,rotateLabel])
+            congratsLabel.run(seq)
+            
+            
+        }
+        
+        //  MAKE MOUTH AND ICE CREAM DANCE
+        
         mouthIsReady = false
         mouth = Mouth(imageNamed: "mouth1")
         mouth!.position = CGPoint(x: self.view!.bounds.width / 2, y: 50)
@@ -1122,8 +1184,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mouth!.run(danceAct)
         iceCream!.run(danceAct)
         
-        
-        var seqArr: [SKAction] = []
+        //  MAKE EXPLOSIONS
+        var explosionSeqArr: [SKAction] = []
         for _ in 0...40 {
             let randWaitTime = Double(arc4random_uniform(UInt32(100))) * 0.01
             print(randWaitTime)
@@ -1134,12 +1196,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let block = SKAction.run {
                 self.makeExplosion(location: thisLoc, endGame: true)
             }
-            seqArr.append(wait)
-            seqArr.append(block)
+            explosionSeqArr.append(wait)
+            explosionSeqArr.append(block)
         }
-
-        let seq = SKAction.sequence(seqArr)
+        let seq = SKAction.sequence(explosionSeqArr)
         run(seq)
+        
+        //  BRING UP HIGH SCORES
+        
+        let wait = SKAction.wait(forDuration: 4.0)
+        let block = SKAction.run {
+            self.settingsNode?.bringUpHighScores(position: self.MID_POINT!, addScoreFlag: true)
+        }
+        let highScoreMenuSeq = SKAction.sequence([wait,block])
+        run(highScoreMenuSeq)
     }
     
     

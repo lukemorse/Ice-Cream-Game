@@ -57,6 +57,7 @@
 		AFA3CDF61E2565170014E381 /* HighScores.sks in Resources */ = {isa = PBXBuildFile; fileRef = AFA3CDF51E2565170014E381 /* HighScores.sks */; };
 		AFA5724B1E3BFB5F007A280D /* shine_down.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AFA5724A1E3BFB5F007A280D /* shine_down.jpg */; };
 		AFA5724D1E3CD231007A280D /* shine_on_and_on.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AFA5724C1E3CD231007A280D /* shine_on_and_on.jpg */; };
+		AFAA29441E4770F10082C793 /* IceCreamLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = AFAA29431E4770F10082C793 /* IceCreamLogo.png */; };
 		AFC5ADC11E397DEB006B79DF /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = AFC5ADC01E397DEB006B79DF /* gear.png */; };
 		AFC5ADC31E398BE5006B79DF /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC5ADC21E398BE5006B79DF /* MenuButton.swift */; };
 		AFC5ADCB1E3AC028006B79DF /* pluck1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AFC5ADC41E3AC028006B79DF /* pluck1.mp3 */; };
@@ -126,6 +127,7 @@
 		AFA3CDF51E2565170014E381 /* HighScores.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HighScores.sks; sourceTree = "<group>"; };
 		AFA5724A1E3BFB5F007A280D /* shine_down.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shine_down.jpg; sourceTree = "<group>"; };
 		AFA5724C1E3CD231007A280D /* shine_on_and_on.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shine_on_and_on.jpg; sourceTree = "<group>"; };
+		AFAA29431E4770F10082C793 /* IceCreamLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IceCreamLogo.png; sourceTree = "<group>"; };
 		AFC5ADC01E397DEB006B79DF /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		AFC5ADC21E398BE5006B79DF /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
 		AFC5ADC41E3AC028006B79DF /* pluck1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pluck1.mp3; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				AF75E9CE1D96EEDD00D7C045 /* greenSprinkle.png */,
 				AF75E9CF1D96EEDD00D7C045 /* yellowSprinkle.png */,
 				AF75E9D01D96EEDD00D7C045 /* red square.png */,
+				AFAA29431E4770F10082C793 /* IceCreamLogo.png */,
 				AF18E7101E20591800C9CAC0 /* bg1.jpg */,
 				AFA5724A1E3BFB5F007A280D /* shine_down.jpg */,
 				AFA5724C1E3CD231007A280D /* shine_on_and_on.jpg */,
@@ -394,6 +397,7 @@
 				AF75E9A21D96EE2D00D7C045 /* Actions.sks in Resources */,
 				AF18E7111E20591800C9CAC0 /* bg1.jpg in Resources */,
 				AF75E9BB1D96EE4E00D7C045 /* coin.mp3 in Resources */,
+				AFAA29441E4770F10082C793 /* IceCreamLogo.png in Resources */,
 				AF8F9E3E1DFCA58A00F4F9EB /* bounce1.mp3 in Resources */,
 				AF75E9BF1D96EE4E00D7C045 /* teeth1.mp3 in Resources */,
 			);
@@ -489,7 +493,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -534,7 +538,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

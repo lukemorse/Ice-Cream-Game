@@ -16,6 +16,8 @@ class SettingsNode: SKSpriteNode {
     var areYouSureMenu: SKShapeNode?
     var settingsMenu: SKShapeNode?
     var highScoresMenu: SKShapeNode?
+    var levelInfoMenu: SKShapeNode?
+    var levelInfoText: SKMultilineLabel?
     var menuButtons: [MenuButton]?
     var nahButton: MenuButton?
     var yeahButton: MenuButton?
@@ -49,9 +51,11 @@ class SettingsNode: SKSpriteNode {
         menu.alpha = 1.0
         
         targetScene!.addChild(menu)
+        let scaleMenu = SKAction.scale(to: 1.0, duration: 0.1)
+        menu.run(scaleMenu)
     }
     
-    func bringUpAreYouSureMenu(position: CGPoint, zPos: CGFloat, clrScrsFlag: Bool) {
+    func bringUpAreYouSureMenu(position: CGPoint, zPos: CGFloat, clearScoresFlag: Bool) {
         
         let menuSize = CGSize(width: parentViewBounds!.width * 0.67, height: parentViewBounds!.height * 0.67)
         areYouSureMenu = SKShapeNode.init(rectOf: menuSize, cornerRadius: 0.15)
@@ -68,7 +72,7 @@ class SettingsNode: SKSpriteNode {
         yeahButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: yeahButtonOrigin, labelText: "Yeah")
         nahButton = MenuButton.init(rectOf: buttonSize, cornerRadius: 0.2, origin: nahButtonOrigin, labelText: "Nah")
         
-        if clrScrsFlag {
+        if clearScoresFlag {
             yeahButton!.name = "yeahButton_CLEAR"
         } else {
             yeahButton!.name = "yeahButton"
@@ -84,6 +88,29 @@ class SettingsNode: SKSpriteNode {
         targetScene!.addChild(nahButton!)
         targetScene!.addChild(sureLabel!)
         
+    }
+    
+    func bringUpLevelInfoMenu(position: CGPoint, levelIndex: String) {
+        
+        let menuSize = CGSize(width: parentViewBounds!.width * 0.67, height: parentViewBounds!.height * 0.67)
+        levelInfoMenu = SKShapeNode.init(rectOf: menuSize, cornerRadius: 0.15)
+        bringUpMenu(menu: levelInfoMenu!, zPos: 6, position: position)
+        
+        let buttonSize = CGSize(width: menuSize.width - 50  , height: parentViewBounds!.height * 0.08)
+        let okCoolButtonOrigin = CGPoint(x: levelInfoMenu!.position.x / 2, y: parentViewBounds!.height * 0.2)
+        okCoolButton = MenuButton(rectOf: buttonSize, cornerRadius: 0.2, origin: okCoolButtonOrigin, labelText: "OK, Cool")
+        okCoolButton!.label?.fontSize = 15
+        okCoolButton!.zPosition = 7
+        okCoolButton!.name = "okCoolButton_LEVEL_INFO"
+        targetScene!.addChild(okCoolButton!)
+        
+        levelInfoText = SKMultilineLabel(text: "", labelWidth: Int(levelInfoMenu!.frame.width * 0.9), pos: CGPoint(x: levelInfoMenu!.frame.midX, y: levelInfoMenu!.frame.maxY * 0.95))
+        levelInfoText!.fontSize = 19
+        levelInfoText!.fontName = "Cochin"
+        levelInfoText!.leading = 19
+        levelInfoText!.text = (levelMenuData[levelIndex]!["description"]!)
+        levelInfoText!.zPosition = 7
+        targetScene!.addChild(levelInfoText!)
     }
     
     func bringUpSettings(position: CGPoint) {
@@ -109,34 +136,42 @@ class SettingsNode: SKSpriteNode {
         }
     }
     
-    func bringUpHighScores(position: CGPoint) {
+    func bringUpHighScores(position: CGPoint, addScoreFlag: Bool) {
         
         var highScores: [Int]?
+        var indexOfAddedScore: Int?
         let menuSize = CGSize(width: parentViewBounds!.width * 0.67, height: parentViewBounds!.height * 0.67)
         highScoresMenu = SKShapeNode.init(rectOf: menuSize, cornerRadius: 0.15)
         bringUpMenu(menu: highScoresMenu!, zPos: 6, position: position)
         
         if var prevHighScores = UserDefaults.standard.array(forKey: "highScores") as? [Int] {
             
-            print("there were previous high scores")
-            print(prevHighScores)
+            if displayedScore >= prevHighScores.last! && addScoreFlag {
+                print("score flag raised")
             
-            if displayedScore >= prevHighScores.last! {
+                var i = 9
+                for score in prevHighScores.reversed() {
+                    if displayedScore >= score {
+                        indexOfAddedScore = i
+                        print("new score is higher than \(score)")
+                    }
+                    i -= 1
+                }
+                if indexOfAddedScore != nil {
+                    prevHighScores.insert(displayedScore, at: indexOfAddedScore!)
+                    prevHighScores.removeLast()
+                    highScores = prevHighScores
+                    UserDefaults.standard.set(highScores, forKey: "highScores")
+                }
                 
-                prevHighScores.insert(displayedScore, at: 0)
-                prevHighScores.removeLast()
-                highScores = prevHighScores.sorted().reversed()
-                UserDefaults.standard.set(highScores, forKey: "highScores")
             } else {
                 highScores = prevHighScores
             }
             
         } else {
-            
-            print("there were NOT previous high scores")
-            
-            var highScores = Array(repeating: Int(0), count: 10)
-            highScores[0] = displayedScore
+            highScores = Array(repeating: Int.min, count: 10)
+            highScores![0] = displayedScore
+            indexOfAddedScore = 0
             UserDefaults.standard.set(highScores, forKey: "highScores")
         }
         
@@ -157,7 +192,12 @@ class SettingsNode: SKSpriteNode {
         clearButton!.zPosition = 7
         okCoolButton!.zPosition = 7
         clearButton!.name = "clearButton"
-        okCoolButton!.name = "okCoolButton"
+        if addScoreFlag {
+            okCoolButton!.name = "BackToMainMenu"
+        } else {
+            okCoolButton!.name = "okCoolButton"
+        }
+        
         targetScene!.addChild(clearButton!)
         targetScene!.addChild(okCoolButton!)
         
@@ -165,16 +205,16 @@ class SettingsNode: SKSpriteNode {
         
         if let finalScores = highScores {
             for index in finalScores.indices {
-                
-//                let thisLabel = SKLabelNode(text: String(describing:
-//                    "\(index + 1). " + "\(finalScores[index])"))
-                let thisLabel = SKLabelNode(text: "\(finalScores[index])")
+                let thisScore = finalScores[index]
+                var thisLabelText = "\(thisScore)"
+                if thisScore == Int.min {
+                    thisLabelText = ""
+                }
+                let thisLabel = SKLabelNode(text: thisLabelText)
                 let thisIndexLabel = SKLabelNode(text: "\(index + 1)")
                 thisLabel.color = UIColor.orange
                 thisIndexLabel.color = UIColor.orange
-//                thisLabel.position = CGPoint(x: parentViewBounds!.width / 2, y: (parentViewBounds!.height * 0.75) - CGFloat((index+1) * 25))
                 thisIndexLabel.position = CGPoint(x: highScoresMenu!.frame.minX * 1.6, y: (parentViewBounds!.height * 0.75) - CGFloat((index+1) * 25))
-                print(highScoresMenu!.frame.minX)
                 thisLabel.position = CGPoint(x: highScoresMenu!.frame.maxX * 0.7, y: (parentViewBounds!.height * 0.75) - CGFloat((index+1) * 25))
                 thisLabel.fontName = "Cochin"
                 thisIndexLabel.fontName = "Cochin"
@@ -188,13 +228,20 @@ class SettingsNode: SKSpriteNode {
                 
                 highScoresLabelArray!.append(thisLabel)
                 highScoresLabelArray!.append(thisIndexLabel)
+                
+            }
+            
+            if indexOfAddedScore != nil {
+                let addedScore = highScoresLabelArray?[indexOfAddedScore!]
+                let glisten = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1.0, duration: 0.4)
+                let makeOrange = SKAction.colorize(with: UIColor.orange, colorBlendFactor: 1.0, duration: 0.4)
+                let glistenSeq = SKAction.sequence([glisten,makeOrange])
+                addedScore?.run(SKAction.repeatForever(glistenSeq))
             }
         }
-        
     }
     
     func ridSureMenu() {
-        print("ridded")
         nahButton?.removeFromParent()
         sureLabel?.removeFromParent()
         yeahButton?.removeFromParent()
@@ -213,15 +260,22 @@ class SettingsNode: SKSpriteNode {
         for label in highScoresLabelArray! {
             label.removeFromParent()
         }
-        highScoresLabel!.removeFromParent()
-        clearButton!.removeFromParent()
-        okCoolButton!.removeFromParent()
-        highScoresMenu!.removeFromParent()
+        highScoresLabel?.removeFromParent()
+        clearButton?.removeFromParent()
+        okCoolButton?.removeFromParent()
+        highScoresMenu?.removeFromParent()
     }
     
     func clearHighScores() {
         
-        let highScores = Array(repeating: Int(0), count: 10)
+        let highScores = Array(repeating: Int.min, count: 10)
         UserDefaults.standard.set(highScores, forKey: "highScores")
+    }
+    
+    func ridLevelInfoMenu() {
+        
+        levelInfoMenu?.removeFromParent()
+        levelInfoText?.removeFromParent()
+        okCoolButton?.removeFromParent()
     }
 }
