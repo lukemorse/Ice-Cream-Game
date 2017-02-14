@@ -12,6 +12,7 @@ import SpriteKit
 class MainMenu: SKScene {
     
     var background: SKSpriteNode?
+    var SCALE_MUL: CGFloat?
     var logoNode: SKSpriteNode?
     var playLabel: SKLabelNode?
     var playButton: MenuButton?
@@ -19,14 +20,13 @@ class MainMenu: SKScene {
     var highScoresButton: MenuButton?
     var iceCreamChar: IceCream?
     var mouthChar: Mouth?
-    var mouthPosition: CGPoint?
     var backgroundMusic: SoundNode!
     var settingsNode: SettingsNode?
     
     override func didMove(to view: SKView) {
         
         self.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        self.backgroundColor = SKColor.blue
+        SCALE_MUL = (scene?.view?.bounds.width)! * 0.00018
         
         if let musicURL = Bundle.main.url(forResource: "bgmusicLevel6", withExtension: "mp3") {
             backgroundMusic = SoundNode(url: musicURL)
@@ -79,38 +79,39 @@ class MainMenu: SKScene {
         highScoresButton!.zPosition = 2
 
         self.addChild(self.playButton!)
-//        self.addChild(self.highScoresLabel!)
         self.addChild(self.highScoresButton!)
+        
+        iceCreamChar = IceCream(imageNamed: "ice cream")
+        iceCreamChar!.zPosition = 4
+        iceCreamChar!.setScale(SCALE_MUL! * 8)
+        iceCreamChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
+        addChild(iceCreamChar!)
+        
+        
+        mouthChar = Mouth(imageNamed: "mouth1")
+        mouthChar!.alpha = 1.0
+        mouthChar!.setScale(SCALE_MUL! * 1.8)
+        mouthChar!.zPosition = 4
+        mouthChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
+        addChild(mouthChar!)
+        
+        mouthChar!.physicsBody?.collisionBitMask = BodyType.hole.rawValue
+        iceCreamChar!.physicsBody?.collisionBitMask = BodyType.hole.rawValue
         
         backgroundChange()
     }
     
     func backgroundChange() {
         
-        iceCreamChar = IceCream(imageNamed: "ice cream")
-        iceCreamChar!.zPosition = 4
-        addChild(iceCreamChar!)
-        iceCreamChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
-        
-        mouthChar = Mouth(imageNamed: "mouth1")
-        mouthChar!.alpha = 1.0
-        mouthChar!.zPosition = 4
-        addChild(mouthChar!)
-        mouthChar!.position = CGPoint(x: self.frame.width / 2, y: self.frame.height)
-        mouthPosition = mouthChar!.position
-        
-        mouthChar!.physicsBody?.collisionBitMask = BodyType.hole.rawValue
-        iceCreamChar!.physicsBody?.collisionBitMask = BodyType.hole.rawValue
-
-        let pointList = makePointsAndDurs(originalPoint: mouthChar!.position)
+        let listOfPointsAndDurs = makePointsAndDurs(originalPoint: mouthChar!.position)
         var iceCreamMovements: [SKAction] = []
         var mouthMovements: [SKAction] = []
-        for i in pointList.listOfDurs.indices {
-            var thisAction = SKAction.move(to: pointList.listOfPoints[i], duration: pointList.listOfDurs[i])
+        for i in listOfPointsAndDurs.listOfDurs.indices {
+            var thisAction = SKAction.move(to: listOfPointsAndDurs.listOfPoints[i], duration: listOfPointsAndDurs.listOfDurs[i])
             iceCreamMovements.append(thisAction)
             
             if i == 0 {
-                thisAction = SKAction.move(to: pointList.listOfPoints[i], duration: pointList.listOfDurs[i] + 0.3)
+                thisAction = SKAction.move(to: listOfPointsAndDurs.listOfPoints[i], duration: listOfPointsAndDurs.listOfDurs[i] + 0.3)
             }
             mouthMovements.append(thisAction)
         }
@@ -129,10 +130,14 @@ class MainMenu: SKScene {
         var listOfPoints: [CGPoint] = []
         var listOfDurs: [TimeInterval] = []
         var previousPoint = originalPoint
-        for _ in 0...10 {
+        for i in 0...10 {
             let randX = CGFloat(Int(arc4random_uniform(UInt32(view!.bounds.width))))
             let randY = CGFloat(Int(arc4random_uniform(UInt32(view!.bounds.height))))
-            let thisPoint = CGPoint(x: randX, y: randY)
+            var thisPoint = CGPoint(x: randX, y: randY)
+            
+            if i == 10 {
+                thisPoint = CGPoint(x: self.frame.width / 2, y: self.frame.height)
+            }
             
             let x = abs(previousPoint.x - thisPoint.x)
             let y = abs(previousPoint.y - thisPoint.y)
@@ -145,7 +150,7 @@ class MainMenu: SKScene {
             
             previousPoint = thisPoint
         }
-        
+        print(listOfPoints, listOfDurs)
         return (listOfPoints, listOfDurs)
     }
     
@@ -171,10 +176,12 @@ class MainMenu: SKScene {
             switch touchedNode!.name! {
                 
             case "playButton":
-                mouthCount = 1
+                mouthCount = 150
+                displayedScore = 0
+                score = 0
                 let transition = SKTransition.crossFade(withDuration: 1)
                 let firstLevel = NewLevelMenu(size: scene!.size)
-                firstLevel.scaleMode = .aspectFill
+                firstLevel.scaleMode = .resizeFill
                 firstLevel.setNewLevel(newLevel: "Level 1")
                 self.scene?.view?.presentScene(firstLevel, transition: transition)
                 

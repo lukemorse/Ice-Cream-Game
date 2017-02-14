@@ -26,6 +26,7 @@ class SettingsNode: SKSpriteNode {
     var clearButton: MenuButton?
     var okCoolButton: MenuButton?
     var highScoresLabelArray: [SKLabelNode]?
+    var highScoresIndexLabelArray: [SKLabelNode]?
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -147,13 +148,11 @@ class SettingsNode: SKSpriteNode {
         if var prevHighScores = UserDefaults.standard.array(forKey: "highScores") as? [Int] {
             
             if displayedScore >= prevHighScores.last! && addScoreFlag {
-                print("score flag raised")
             
                 var i = 9
                 for score in prevHighScores.reversed() {
                     if displayedScore >= score {
                         indexOfAddedScore = i
-                        print("new score is higher than \(score)")
                     }
                     i -= 1
                 }
@@ -202,6 +201,7 @@ class SettingsNode: SKSpriteNode {
         targetScene!.addChild(okCoolButton!)
         
         highScoresLabelArray = []
+        highScoresIndexLabelArray = []
         
         if let finalScores = highScores {
             for index in finalScores.indices {
@@ -227,7 +227,7 @@ class SettingsNode: SKSpriteNode {
                 targetScene!.addChild(thisIndexLabel)
                 
                 highScoresLabelArray!.append(thisLabel)
-                highScoresLabelArray!.append(thisIndexLabel)
+                highScoresIndexLabelArray!.append(thisIndexLabel)
                 
             }
             
@@ -258,6 +258,9 @@ class SettingsNode: SKSpriteNode {
     
     func ridHighScoresMenu() {
         for label in highScoresLabelArray! {
+            label.removeFromParent()
+        }
+        for label in highScoresIndexLabelArray! {
             label.removeFromParent()
         }
         highScoresLabel?.removeFromParent()

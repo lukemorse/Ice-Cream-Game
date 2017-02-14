@@ -42,14 +42,14 @@ let levelMenuData = [
     "Level 2" : [
         
         "level" : "Level 2",
-        "description" : "Brain freeze, or sphenopalatine ganglioneuralgia, happens when you eat ice cream too fast.  Throw your mouths no faster than 30 MPH!",
+        "description" : "Brain freeze, or sphenopalatine ganglioneuralgia, happens when you eat ice cream too fast.  Throw your mouths no faster than 25 MPH!",
         "picture" : "red square"
     ],
     
     "Level 3" : [
         
         "level" : "Level 3",
-        "description" : "Glavny Universalny Megazin in Red Square, Moscow has some of the best ice cream available to this specific location.  At least that's what JacquelineRose5 on yelp had to say about it.  These red squares, however, are bouncy!  Bounce your mouths off of it to achieve extra points! Don't get squashed between them though!",
+        "description" : "Glavny Universalny Megazin in Red Square, Moscow has some of the best ice cream available to this specific location.  At least that's what JacquelineRose5 on yelp had to say about it.  These red squares, however, are bouncy!  Bounce your mouths off of them to achieve extra points! Don't get squashed between them, though!",
         "picture" : "red square"
     ],
     

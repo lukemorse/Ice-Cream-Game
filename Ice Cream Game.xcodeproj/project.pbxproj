@@ -13,12 +13,11 @@
 		AF193AD11DA17C4400C8F1E8 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */; };
 		AF325B271E42691300FA76FF /* SettingsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF325B261E42691300FA76FF /* SettingsNode.swift */; };
 		AF43E8B91E35836E00237A35 /* bgmusicLevel5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8B71E35836E00237A35 /* bgmusicLevel5.mp3 */; };
-		AF43E8BA1E35836E00237A35 /* bgmusicLevel6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8B81E35836E00237A35 /* bgmusicLevel6.mp3 */; };
 		AF43E8BC1E35844E00237A35 /* bgmusicLevel1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8BB1E35844E00237A35 /* bgmusicLevel1.mp3 */; };
 		AF43E8C01E35848300237A35 /* bgmusicLevel2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8BF1E35848300237A35 /* bgmusicLevel2.mp3 */; };
 		AF4430BF1DAAC0C300A1FA33 /* NewLevelMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */; };
 		AF4430C11DAAC27300A1FA33 /* NewLevelMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */; };
-		AF702D6F1E24539900EA35D4 /* HighScores.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF702D6E1E24539900EA35D4 /* HighScores.swift */; };
+		AF53D1511E50F8FA006FCF4A /* bgmusicLevel6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF53D1501E50F8FA006FCF4A /* bgmusicLevel6.mp3 */; };
 		AF742E0A1DF854F8009BF9D1 /* bgmusicLevel3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */; };
 		AF742E0C1DF85F85009BF9D1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF742E0B1DF85F85009BF9D1 /* Extentions.swift */; };
 		AF742E0E1DF85FBC009BF9D1 /* SoundNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF742E0D1DF85FBC009BF9D1 /* SoundNode.swift */; };
@@ -30,7 +29,6 @@
 		AF75E9AB1D96EE2D00D7C045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9AA1D96EE2D00D7C045 /* Assets.xcassets */; };
 		AF75E9AE1D96EE2D00D7C045 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9AC1D96EE2D00D7C045 /* LaunchScreen.storyboard */; };
 		AF75E9BB1D96EE4E00D7C045 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B51D96EE4E00D7C045 /* coin.mp3 */; };
-		AF75E9BF1D96EE4E00D7C045 /* teeth1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9B91D96EE4E00D7C045 /* teeth1.mp3 */; };
 		AF75E9C01D96EE4E00D7C045 /* teeth2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9BA1D96EE4E00D7C045 /* teeth2.mp3 */; };
 		AF75E9C31D96EE6A00D7C045 /* mouth.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9C21D96EE6A00D7C045 /* mouth.atlas */; };
 		AF75E9D61D96EEDD00D7C045 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF75E9CC1D96EEDD00D7C045 /* Explosion.sks */; };
@@ -81,12 +79,11 @@
 		AF193AD01DA17C4400C8F1E8 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
 		AF325B261E42691300FA76FF /* SettingsNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsNode.swift; sourceTree = "<group>"; };
 		AF43E8B71E35836E00237A35 /* bgmusicLevel5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel5.mp3; sourceTree = "<group>"; };
-		AF43E8B81E35836E00237A35 /* bgmusicLevel6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel6.mp3; sourceTree = "<group>"; };
 		AF43E8BB1E35844E00237A35 /* bgmusicLevel1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel1.mp3; sourceTree = "<group>"; };
 		AF43E8BF1E35848300237A35 /* bgmusicLevel2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel2.mp3; sourceTree = "<group>"; };
 		AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLevelMenu.swift; sourceTree = "<group>"; };
 		AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewLevelMenu.sks; sourceTree = "<group>"; };
-		AF702D6E1E24539900EA35D4 /* HighScores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighScores.swift; sourceTree = "<group>"; };
+		AF53D1501E50F8FA006FCF4A /* bgmusicLevel6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel6.mp3; sourceTree = "<group>"; };
 		AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel3.mp3; sourceTree = "<group>"; };
 		AF742E0B1DF85F85009BF9D1 /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		AF742E0D1DF85FBC009BF9D1 /* SoundNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundNode.swift; sourceTree = "<group>"; };
@@ -100,7 +97,6 @@
 		AF75E9AD1D96EE2D00D7C045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AF75E9AF1D96EE2D00D7C045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF75E9B51D96EE4E00D7C045 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
-		AF75E9B91D96EE4E00D7C045 /* teeth1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teeth1.mp3; sourceTree = "<group>"; };
 		AF75E9BA1D96EE4E00D7C045 /* teeth2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teeth2.mp3; sourceTree = "<group>"; };
 		AF75E9C21D96EE6A00D7C045 /* mouth.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = mouth.atlas; sourceTree = "<group>"; };
 		AF75E9CC1D96EEDD00D7C045 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
@@ -196,7 +192,7 @@
 				AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */,
 				AFC985B01E01D0D1003A41C7 /* bgmusicLevel4.mp3 */,
 				AF43E8B71E35836E00237A35 /* bgmusicLevel5.mp3 */,
-				AF43E8B81E35836E00237A35 /* bgmusicLevel6.mp3 */,
+				AF53D1501E50F8FA006FCF4A /* bgmusicLevel6.mp3 */,
 				AFC985B11E01D0D1003A41C7 /* teethclatter.mp3 */,
 				AFC985AE1E01B504003A41C7 /* BrushSound.mp3 */,
 				AFC5ADC41E3AC028006B79DF /* pluck1.mp3 */,
@@ -206,7 +202,6 @@
 				AFC5ADC81E3AC028006B79DF /* pluck5.mp3 */,
 				AFC5ADC91E3AC028006B79DF /* pluck6.mp3 */,
 				AFC5ADCA1E3AC028006B79DF /* pluck7.mp3 */,
-				AF75E9B91D96EE4E00D7C045 /* teeth1.mp3 */,
 				AF75E9BA1D96EE4E00D7C045 /* teeth2.mp3 */,
 				AF8F9E391DFCA58A00F4F9EB /* bounce1.mp3 */,
 				AF8F9E3A1DFCA58A00F4F9EB /* bounce2.mp3 */,
@@ -247,7 +242,6 @@
 				AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */,
 				AF75E9A31D96EE2D00D7C045 /* GameScene.swift */,
 				AF325B261E42691300FA76FF /* SettingsNode.swift */,
-				AF702D6E1E24539900EA35D4 /* HighScores.swift */,
 				AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */,
 				AF75E9E01D96EF2E00D7C045 /* Toothbrush.swift */,
 				AF75E9E21D96EF2E00D7C045 /* Spike.swift */,
@@ -324,7 +318,7 @@
 				TargetAttributes = {
 					AF75E9991D96EE2D00D7C045 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 48WGY8KFKT;
+						DevelopmentTeam = 4Z8CKPY35P;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -357,7 +351,6 @@
 				AF75E9D81D96EEDD00D7C045 /* greenSprinkle.png in Resources */,
 				AFA5724D1E3CD231007A280D /* shine_on_and_on.jpg in Resources */,
 				AF75E9D71D96EEDD00D7C045 /* ToothExplosion.sks in Resources */,
-				AF43E8BA1E35836E00237A35 /* bgmusicLevel6.mp3 in Resources */,
 				AF75E9C01D96EE4E00D7C045 /* teeth2.mp3 in Resources */,
 				AFC985AF1E01B504003A41C7 /* BrushSound.mp3 in Resources */,
 				AFC985B21E01D0D1003A41C7 /* bgmusicLevel4.mp3 in Resources */,
@@ -392,6 +385,7 @@
 				AFA3CDF61E2565170014E381 /* HighScores.sks in Resources */,
 				AFC5ADCE1E3AC028006B79DF /* pluck4.mp3 in Resources */,
 				AF75E9C31D96EE6A00D7C045 /* mouth.atlas in Resources */,
+				AF53D1511E50F8FA006FCF4A /* bgmusicLevel6.mp3 in Resources */,
 				AFC985B31E01D0D1003A41C7 /* teethclatter.mp3 in Resources */,
 				AFC5ADCD1E3AC028006B79DF /* pluck3.mp3 in Resources */,
 				AF75E9A21D96EE2D00D7C045 /* Actions.sks in Resources */,
@@ -399,7 +393,6 @@
 				AF75E9BB1D96EE4E00D7C045 /* coin.mp3 in Resources */,
 				AFAA29441E4770F10082C793 /* IceCreamLogo.png in Resources */,
 				AF8F9E3E1DFCA58A00F4F9EB /* bounce1.mp3 in Resources */,
-				AF75E9BF1D96EE4E00D7C045 /* teeth1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +411,6 @@
 				AF75E9E61D96EF2E00D7C045 /* Toothbrush.swift in Sources */,
 				AF75E9EA1D96EF2E00D7C045 /* Mouth.swift in Sources */,
 				AF75E9A61D96EE2D00D7C045 /* GameViewController.swift in Sources */,
-				AF702D6F1E24539900EA35D4 /* HighScores.swift in Sources */,
 				AF193ACF1DA1645F00C8F1E8 /* MainMenu.swift in Sources */,
 				AF4430BF1DAAC0C300A1FA33 /* NewLevelMenu.swift in Sources */,
 				AF742E0C1DF85F85009BF9D1 /* Extentions.swift in Sources */,
@@ -551,7 +543,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 48WGY8KFKT;
+				DEVELOPMENT_TEAM = 4Z8CKPY35P;
 				INFOPLIST_FILE = "Ice Cream Game/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Lukemorse.Ice-Cream-Game";
@@ -564,7 +556,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 48WGY8KFKT;
+				DEVELOPMENT_TEAM = 4Z8CKPY35P;
 				INFOPLIST_FILE = "Ice Cream Game/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Lukemorse.Ice-Cream-Game";

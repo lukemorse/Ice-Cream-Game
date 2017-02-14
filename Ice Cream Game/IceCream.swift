@@ -29,7 +29,7 @@ class IceCream: SKSpriteNode {
         self.physicsBody = body
         self.name = "iceCream"
         self.isUserInteractionEnabled = false
-        self.setScale(0.45)
+//        self.setScale(0.45)
         self.zPosition = 1
         
     }

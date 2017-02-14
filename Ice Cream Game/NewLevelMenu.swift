@@ -32,19 +32,15 @@ class PlayButton: SKSpriteNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.color = SKColor.red
-        print("touches began")
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.color = SKColor.green
-        print("touches ended 1")
         self.delegate?.OnTouchEnded()
-        print("touches ended 2")
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.color = SKColor.green
-        print("touches cancelled")
     }
 }
 
@@ -73,7 +69,7 @@ class NewLevelMenu: SKScene, PlayButtonDelegate {
         
         descLabel = SKMultilineLabel(text: "", labelWidth: Int(self.view!.bounds.width), pos: CGPoint(x: size.width / 2, y: size.height - 20))
         descLabel!.fontSize = 25
-        descLabel!.fontColor = UIColor.blue
+        descLabel!.fontColor = UIColor.white
         descLabel!.fontName = "Cochin"
         descLabel!.leading = 27
         descLabel!.text = (levelMenuData[self.newLevel!]?["description"]!)!
