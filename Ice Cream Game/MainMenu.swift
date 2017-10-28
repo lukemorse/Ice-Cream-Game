@@ -33,10 +33,12 @@ class MainMenu: SKScene {
             addChild(backgroundMusic)
         }
         
-        background = SKSpriteNode.init(imageNamed: "bg1.jpg")
+//        background = SKSpriteNode.init(imageNamed: "bg1.jpg")
+        background = SKSpriteNode.init(imageNamed: "IceCreamGameBG.jpeg")
         background!.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         background!.position = CGPoint(x: 0.0, y: 0.0)
         background!.zPosition = 0
+        background!.setScale(SCALE_MUL! * 3)
         addChild(background!)
         
         let logoTexture = SKTexture(imageNamed: "IceCreamLogo")
@@ -119,7 +121,7 @@ class MainMenu: SKScene {
         iceCreamChar!.run(SKAction.repeatForever(SKAction.sequence(iceCreamMovements)))
         mouthChar!.run(SKAction.repeatForever(SKAction.sequence(mouthMovements)))
         
-        let rotate = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.6))
+        let rotate = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 0.6))
         iceCreamChar!.run(rotate)
         mouthChar!.run(rotate)
         

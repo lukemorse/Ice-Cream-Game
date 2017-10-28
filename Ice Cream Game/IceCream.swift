@@ -24,7 +24,7 @@ class IceCream: SKSpriteNode {
         body.categoryBitMask = BodyType.iceCream.rawValue
         body.contactTestBitMask = BodyType.mouth.rawValue
         body.isDynamic = false
-        body.affectedByGravity = false
+        //body.affectedByGravity = false
         
         self.physicsBody = body
         self.name = "iceCream"

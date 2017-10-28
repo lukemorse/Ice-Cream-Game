@@ -15,11 +15,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var worldNode: SKNode?
     var SCALE_MUL: CGFloat?
     var scoreLabel: SKLabelNode?
+    var nextLevelLabel: SKLabelNode?
+    var mouthsLabel: SKLabelNode?
     var fancy = false
     var settingsAreUp = false
     var gameOver = false
     var mouthSpeed = 0
     var levelIndex = "Level 1"
+    var nextLevelCounter = 10
     
     var touchPoint: CGPoint = CGPoint()
     var touching: Bool = false
@@ -69,18 +72,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(worldNode!)
         self.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         SCALE_MUL = (scene?.view?.bounds.width)! * 0.00018
-        print(SCALE_MUL!)
         
         MID_POINT = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
-        bg1 = SKSpriteNode.init(imageNamed: "shine_on_and_on.jpg")
+        bg1 = SKSpriteNode.init(imageNamed: "IceCreamGameBG.jpeg")
         bg1!.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         bg1!.position = CGPoint(x: 0.0, y: 0.0)
         bg1!.zPosition = 0
         bg1!.setScale(SCALE_MUL! * 3)
         worldNode!.addChild(bg1!)
         
-//        bg2 = SKSpriteNode.init(imageNamed: "bg1.jpg")
-        bg2 = SKSpriteNode.init(imageNamed: "shine_on_and_on.jpg")
+        bg2 = SKSpriteNode.init(imageNamed: "IceCreamGameBG.jpeg")
         bg2!.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         bg2!.position = CGPoint(x: bg1!.size.width - 1, y: 0);
         bg2!.zPosition = 0
@@ -89,7 +90,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         settingsNode = SettingsNode.init(imageNamed: "gear", targetScene: self.scene!)
         settingsNode!.parentViewBounds = self.view!.bounds
-//        settingsNode!.setScale(0.05)
         settingsNode!.setScale(SCALE_MUL!)
         settingsNode!.position = CGPoint(x: view.bounds.width - (settingsNode!.size.width / 2), y: view.bounds.height - (settingsNode!.size.height / 2))
         settingsNode!.zPosition = 1
@@ -102,6 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createHead()
         fadeInMouth()
         makeScoreLabel()
+        makeNextLevelLabel()
+        makeMouthsLabel()
         createArc()
         
         mouthSpot = SKSpriteNode(imageNamed: "mouth1")
@@ -144,7 +146,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createArc() {
         
-        let origin = CGPoint(x: 0, y: SCALE_MUL! * 2500)
+//        let origin = CGPoint(x: 0, y: SCALE_MUL! * 2500)
+        let origin = CGPoint(x: 0, y: MID_POINT!.y / 2)
         arc = SKShapeNode(ellipseIn: CGRect(origin: origin, size: CGSize(width: view!.bounds.width, height: SCALE_MUL! * 5000)))
         arc!.position = CGPoint(x: 0, y: -MID_POINT!.y)
         arc!.fillColor = SKColor.white
@@ -152,7 +155,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tablePatternTexture = SKTexture(image: tablePattern!)
         arc!.fillTexture = tablePatternTexture
         arc!.lineWidth = 1.0
-//        arc!.glowWidth = 3.0
         arc!.zPosition = 1
         
         worldNode!.addChild(arc!)
@@ -254,7 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func moveBadIceCream(rate: Double) {
         
-        let spin = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 2.0 / rate)
+        let spin = SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 2.0 / rate)
         let repeatSpin = SKAction.repeatForever(spin)
         
         let right = CGPoint(x: view!.bounds.width, y: view!.bounds.height / 2)
@@ -387,7 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let velocity = mouth!.physicsBody?.velocity
         mouthSpeed = Int(sqrt((velocity!.dx * velocity!.dx) + (velocity!.dy * velocity!.dy)) / 10)
         
-        let wait = SKAction.wait(forDuration: 3.5)
+        let wait = SKAction.wait(forDuration: 4.5)
         let fadeBackIn = SKAction.run { if self.mouth == nil {
             self.fadeInMouth()}}
         
@@ -440,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let randIndex = Int(arc4random_uniform(UInt32(array.count)))
         let thisSound = array[randIndex]
         
-        playSound(resourceString: thisSound, volume: 0.6, time: 0.8)
+        playSound(resourceString: thisSound, volume: 0.6, time: 0.5)
         
     }
     
@@ -660,13 +662,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             worldNode!.addChild(toothExplosion)
             
             if location.y == 0 {
-                toothExplosion.emissionAngle = CGFloat(M_PI / 2)
+                toothExplosion.emissionAngle = CGFloat(Double.pi / 2)
             } else if location.y == view!.bounds.height {
-                toothExplosion.emissionAngle = CGFloat(M_PI * 3 / 2)
+                toothExplosion.emissionAngle = CGFloat(Double.pi * 3 / 2)
             } else if location.x == 0 {
                 toothExplosion.emissionAngle = 0.0
             } else if location.x == view!.bounds.width {
-                toothExplosion.emissionAngle = CGFloat(M_PI)
+                toothExplosion.emissionAngle = CGFloat(Double.pi)
             }
             playSound(resourceString: "teeth2", volume: 0.8, time: 2.0)
             
@@ -687,6 +689,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if good {
             displayedScore += Int(value)
             animateScore(good: true)
+            nextLevelCounter -= 1
+            nextLevelLabel!.text = "Next Level: \(nextLevelCounter)"
             
         } else {
             value = value / 8
@@ -717,7 +721,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func makeSpeedLabel(position: CGPoint) {
     
-        if score >= 10 && score <= 19 || score >= 30 && score <= 39 {
+//        if score >= 10 && score <= 19 || score >= 30 && score <= 39 {
+        if score <= 19 || score >= 30 && score <= 39 {
             
             let string = String(describing: mouthSpeed) + " MPH!"
             let speedLbl = SKLabelNode(text: string)
@@ -954,6 +959,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createToothbrush(brush: Toothbrush) {
         
+        brush.setScale(SCALE_MUL! * 5)
+        
         let yOffset = UInt32(size.height / 2)
         
         let initRandomY = arc4random_uniform(UInt32(size.height / 2)) + yOffset
@@ -970,7 +977,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         worldNode!.addChild(brush)
         
         let moveBrush = SKAction.move(to: rightPosition, duration: 1)
-        let rotate = SKAction.rotate(byAngle: CGFloat(M_PI * 2), duration: 2.0)
+        let rotate = SKAction.rotate(byAngle: CGFloat(Double.pi * 2), duration: 2.0)
         let removeBrush = SKAction.run{
             brush.removeAllActions()
             brush.removeFromParent()
@@ -1000,6 +1007,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel!.fontSize = 20
         scoreLabel!.zPosition = 1
         worldNode!.addChild(scoreLabel!)
+    }
+    
+    func makeNextLevelLabel() {
+        
+        nextLevelLabel = SKLabelNode.init(text: "Next Level: \(nextLevelCounter)")
+        nextLevelLabel!.color = SKColor.white
+        nextLevelLabel!.fontName = "Chalkduster"
+        nextLevelLabel!.horizontalAlignmentMode = .left
+        nextLevelLabel!.position = CGPoint(x: scoreLabel!.position.x, y: scoreLabel!.position.y - scoreLabel!.frame.height)
+        nextLevelLabel!.fontSize = 20
+        nextLevelLabel!.zPosition = 1
+        worldNode!.addChild(nextLevelLabel!)
+    }
+    
+    func makeMouthsLabel() {
+        mouthsLabel = SKLabelNode.init(text: "Mouths Left: \(mouthCount)")
+        mouthsLabel?.color = SKColor.white
+        mouthsLabel?.fontName = "Chalkduster"
+        mouthsLabel?.horizontalAlignmentMode = .right
+        mouthsLabel?.position = CGPoint(x: scoreLabel!.position.x, y: nextLevelLabel!.position.y - nextLevelLabel!.frame.height)
+        mouthsLabel?.fontSize = 20
+        mouthsLabel?.zPosition = 1
+        worldNode?.addChild(mouthsLabel!)
     }
     
     func transitionToNextLevel(level: String) {
@@ -1050,6 +1080,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         redSquare = RedSquare(imageNamed: "red square")
         redSquare2 = RedSquare(imageNamed: "red square")
+        redSquare!.setScale(SCALE_MUL! * 13)
+        redSquare2!.setScale(SCALE_MUL! * 13)
         worldNode!.addChild(redSquare!)
         worldNode!.addChild(redSquare2!)
         let createFirstSquare = SKAction.run({ self.moveRedSquare(self.redSquare!)})
@@ -1180,7 +1212,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if highScoreAchieved {
             let wait = SKAction.wait(forDuration: 1.5)
-            let rotateLabel = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.2)
+            let rotateLabel = SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 0.2)
             let block = SKAction.run {
                 congratsLabel.text = "HIGH SCORE!"
             }
@@ -1199,7 +1231,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mouth!.alpha = 1.0
         worldNode!.addChild(mouth!)
         
-        let danceAct = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.5))
+        let danceAct = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 0.5))
         mouth!.run(danceAct)
         iceCream!.run(danceAct)
         
