@@ -178,7 +178,7 @@ class MainMenu: SKScene {
             switch touchedNode!.name! {
                 
             case "playButton":
-                mouthCount = 150
+                mouthCount = 100
                 displayedScore = 0
                 score = 0
                 let transition = SKTransition.crossFade(withDuration: 1)

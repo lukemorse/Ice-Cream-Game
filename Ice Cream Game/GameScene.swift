@@ -9,7 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var worldNode: SKNode?
@@ -375,10 +374,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func shootMouth() {
-        
-        mouthCount -= 1
-        print(mouthCount)
-        
         mouthIsReady = false
         
         if let teethURL = Bundle.main.url(forResource: "teethclatter", withExtension: "mp3") {
@@ -422,6 +417,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if !gameOver {
             
+            mouthCount -= 1
+            mouthsLabel?.text = "Mouths Left: \(mouthCount)"
+            animateLabel(label: mouthsLabel!, good: false)
             changeScore(good: false)
             
             if worldNode?.childNode(withName: "mouth") != nil {
@@ -688,19 +686,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if good {
             displayedScore += Int(value)
-            animateScore(good: true)
+            animateLabel(label: scoreLabel!, good: true)
             nextLevelCounter -= 1
             nextLevelLabel!.text = "Next Level: \(nextLevelCounter)"
+            animateLabel(label: nextLevelLabel!, good: true)
             
         } else {
             value = value / 8
             displayedScore -= Int(value)
-            animateScore(good: false)
+            animateLabel(label: scoreLabel!, good: false)
 }
         scoreLabel!.text = "SCORE: \(displayedScore)"
     }
     
-    func animateScore(good: Bool) {
+    func animateLabel(label: SKLabelNode, good: Bool) {
         
         var changeScoreSize = SKAction()
         var changeScoreColor = SKAction()
@@ -716,7 +715,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let swellScore = SKAction.sequence([changeScoreSize,changeScoreSizeBack])
         let colorizeScore = SKAction.sequence([changeScoreColor,changeScoreColorBack])
         let group = SKAction.group([swellScore,colorizeScore])
-        scoreLabel!.run(group)
+        label.run(group)
     }
     
     func makeSpeedLabel(position: CGPoint) {
@@ -1025,11 +1024,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mouthsLabel = SKLabelNode.init(text: "Mouths Left: \(mouthCount)")
         mouthsLabel?.color = SKColor.white
         mouthsLabel?.fontName = "Chalkduster"
-        mouthsLabel?.horizontalAlignmentMode = .right
+        mouthsLabel?.horizontalAlignmentMode = .left
         mouthsLabel?.position = CGPoint(x: scoreLabel!.position.x, y: nextLevelLabel!.position.y - nextLevelLabel!.frame.height)
         mouthsLabel?.fontSize = 20
         mouthsLabel?.zPosition = 1
-        worldNode?.addChild(mouthsLabel!)
+        worldNode!.addChild(mouthsLabel!)
     }
     
     func transitionToNextLevel(level: String) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D77F4A4825B9855FCD73E1C /* Pods_Ice_Cream_Game.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 564CD15F142BFEACD1DF0A02 /* Pods_Ice_Cream_Game.framework */; };
 		AF18E7111E20591800C9CAC0 /* bg1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AF18E7101E20591800C9CAC0 /* bg1.jpg */; };
 		AF193ACD1DA15AA300C8F1E8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */; };
 		AF193ACF1DA1645F00C8F1E8 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */; };
@@ -17,7 +18,7 @@
 		AF43E8C01E35848300237A35 /* bgmusicLevel2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF43E8BF1E35848300237A35 /* bgmusicLevel2.mp3 */; };
 		AF4430BF1DAAC0C300A1FA33 /* NewLevelMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */; };
 		AF4430C11DAAC27300A1FA33 /* NewLevelMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */; };
-		AF44A7ED1EC22CB00039E3DB /* bgmusiclevel1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF44A7EC1EC22CB00039E3DB /* bgmusiclevel1.mp3 */; };
+		AF44A7ED1EC22CB00039E3DB /* bgmusicLevel1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF44A7EC1EC22CB00039E3DB /* bgmusicLevel1.mp3 */; };
 		AF53D1511E50F8FA006FCF4A /* bgmusicLevel6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF53D1501E50F8FA006FCF4A /* bgmusicLevel6.mp3 */; };
 		AF742E0A1DF854F8009BF9D1 /* bgmusicLevel3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */; };
 		AF742E0C1DF85F85009BF9D1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF742E0B1DF85F85009BF9D1 /* Extentions.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		564CD15F142BFEACD1DF0A02 /* Pods_Ice_Cream_Game.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ice_Cream_Game.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF18E7101E20591800C9CAC0 /* bg1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg1.jpg; sourceTree = "<group>"; };
 		AF193ACC1DA15AA300C8F1E8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		AF193ACE1DA1645F00C8F1E8 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
@@ -82,7 +84,7 @@
 		AF43E8BF1E35848300237A35 /* bgmusicLevel2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel2.mp3; sourceTree = "<group>"; };
 		AF4430BE1DAAC0C300A1FA33 /* NewLevelMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLevelMenu.swift; sourceTree = "<group>"; };
 		AF4430C01DAAC27300A1FA33 /* NewLevelMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewLevelMenu.sks; sourceTree = "<group>"; };
-		AF44A7EC1EC22CB00039E3DB /* bgmusiclevel1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusiclevel1.mp3; sourceTree = "<group>"; };
+		AF44A7EC1EC22CB00039E3DB /* bgmusicLevel1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel1.mp3; sourceTree = "<group>"; };
 		AF53D1501E50F8FA006FCF4A /* bgmusicLevel6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel6.mp3; sourceTree = "<group>"; };
 		AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgmusicLevel3.mp3; sourceTree = "<group>"; };
 		AF742E0B1DF85F85009BF9D1 /* Extentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
@@ -136,6 +138,8 @@
 		AFC985B11E01D0D1003A41C7 /* teethclatter.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = teethclatter.mp3; sourceTree = "<group>"; };
 		AFCFB1B91DC6644500220EB7 /* SKMultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMultilineLabel.swift; sourceTree = "<group>"; };
 		AFE8550F1E3040FA00EE4F2B /* tablePattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tablePattern.png; sourceTree = "<group>"; };
+		EB8A08EEE0D7D028FDA592C5 /* Pods-Ice Cream Game.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ice Cream Game.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ice Cream Game/Pods-Ice Cream Game.release.xcconfig"; sourceTree = "<group>"; };
+		F1A67B54851DFA12F445C22E /* Pods-Ice Cream Game.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ice Cream Game.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ice Cream Game/Pods-Ice Cream Game.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,18 +147,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D77F4A4825B9855FCD73E1C /* Pods_Ice_Cream_Game.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7889637D09BF3CE518165342 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				564CD15F142BFEACD1DF0A02 /* Pods_Ice_Cream_Game.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AF75E9911D96EE2D00D7C045 = {
 			isa = PBXGroup;
 			children = (
 				AF75E9C11D96EE5800D7C045 /* Sounds */,
 				AF75E99C1D96EE2D00D7C045 /* Ice Cream Game */,
 				AF75E99B1D96EE2D00D7C045 /* Products */,
+				D14D96340E34D91645E944CA /* Pods */,
+				7889637D09BF3CE518165342 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,7 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				AF75E9B51D96EE4E00D7C045 /* coin.mp3 */,
-				AF44A7EC1EC22CB00039E3DB /* bgmusiclevel1.mp3 */,
+				AF44A7EC1EC22CB00039E3DB /* bgmusicLevel1.mp3 */,
 				AF43E8BF1E35848300237A35 /* bgmusicLevel2.mp3 */,
 				AF742E081DF854F8009BF9D1 /* bgmusicLevel3.mp3 */,
 				AFC985B01E01D0D1003A41C7 /* bgmusicLevel4.mp3 */,
@@ -283,6 +298,15 @@
 			name = Utility;
 			sourceTree = "<group>";
 		};
+		D14D96340E34D91645E944CA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F1A67B54851DFA12F445C22E /* Pods-Ice Cream Game.debug.xcconfig */,
+				EB8A08EEE0D7D028FDA592C5 /* Pods-Ice Cream Game.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -290,9 +314,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AF75E9B21D96EE2D00D7C045 /* Build configuration list for PBXNativeTarget "Ice Cream Game" */;
 			buildPhases = (
+				3C6DC672C0D9609F67B065B9 /* [CP] Check Pods Manifest.lock */,
 				AF75E9961D96EE2D00D7C045 /* Sources */,
 				AF75E9971D96EE2D00D7C045 /* Frameworks */,
 				AF75E9981D96EE2D00D7C045 /* Resources */,
+				C90D5B7A124D15BD128E6C21 /* [CP] Embed Pods Frameworks */,
+				43B0F94349F13EAA15847CFB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -349,7 +376,7 @@
 				AF324F131E53973600D2478A /* IceCreamGameBG.jpeg in Resources */,
 				AF75E9D71D96EEDD00D7C045 /* ToothExplosion.sks in Resources */,
 				AF75E9C01D96EE4E00D7C045 /* teeth2.mp3 in Resources */,
-				AF44A7ED1EC22CB00039E3DB /* bgmusiclevel1.mp3 in Resources */,
+				AF44A7ED1EC22CB00039E3DB /* bgmusicLevel1.mp3 in Resources */,
 				AFC985AF1E01B504003A41C7 /* BrushSound.mp3 in Resources */,
 				AFC985B21E01D0D1003A41C7 /* bgmusicLevel4.mp3 in Resources */,
 				AF75E9DC1D96EEDD00D7C045 /* tooth.png in Resources */,
@@ -393,6 +420,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C6DC672C0D9609F67B065B9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		43B0F94349F13EAA15847CFB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ice Cream Game/Pods-Ice Cream Game-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C90D5B7A124D15BD128E6C21 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ice Cream Game/Pods-Ice Cream Game-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AF75E9961D96EE2D00D7C045 /* Sources */ = {
@@ -537,6 +612,7 @@
 		};
 		AF75E9B31D96EE2D00D7C045 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1A67B54851DFA12F445C22E /* Pods-Ice Cream Game.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -555,6 +631,7 @@
 		};
 		AF75E9B41D96EE2D00D7C045 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB8A08EEE0D7D028FDA592C5 /* Pods-Ice Cream Game.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
